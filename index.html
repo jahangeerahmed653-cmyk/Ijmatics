@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#007b83">
+<link rel="manifest" href="/manifest.json">
+<title>Ijmatics | Learning Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--teal:#007b83;--teal-dark:#00636a;--bg:#f5f7f8;--text:#263238;--muted:#718096;--border:#e2e8f0;--white:#fff;--red:#dc3545;--green:#16834a;--shadow:0 3px 14px rgba(20,40,50,.06)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+body{background:var(--bg);color:var(--text);overflow-x:hidden}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.page{display:none}.page.show{display:block}
+#login-page{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:#edf4f4;background-image:radial-gradient(#dce8e8 1px,transparent 1px);background-size:22px 22px}
+.login-box{width:100%;max-width:420px;background:#fff;padding:38px;border-radius:16px;box-shadow:0 16px 45px #17383b16;text-align:center}
+.logo{display:flex;justify-content:center;align-items:center;gap:11px;color:var(--teal);font-size:27px;font-weight:800;margin-bottom:10px}
+.logo-circle{height:42px;width:42px;border-radius:13px;background:var(--teal);color:white;display:grid;place-items:center}
+.login-sub{color:var(--muted);font-size:13px;margin-bottom:27px}
+.input-box{position:relative;margin:14px 0}.input-box i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#87939c}
+.input-box input{width:100%;padding:13px 14px 13px 42px;border:1px solid var(--border);border-radius:8px;outline:0}.input-box input:focus,.field:focus{border-color:var(--teal);box-shadow:0 0 0 3px #007b8314}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:8px;padding:12px 17px;font-weight:600}.btn:hover{background:var(--teal-dark)}.btn.full{width:100%}
+.demo-hint{font-size:11px;color:#84919a;line-height:1.6;margin-top:17px}
+header{height:64px;position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 22px}
+.header-left,.header-right{display:flex;align-items:center;gap:17px}.menu-btn{font-size:20px;cursor:pointer;color:#34454b}.brand-small{font-weight:800;color:var(--teal);font-size:19px}.batch{border:1px solid var(--border);padding:8px 11px;border-radius:7px;font-size:12px;color:#526168}
+.header-right{color:#697780;font-size:17px}.header-right>i,.user-menu>i{cursor:pointer}.user-menu{position:relative;cursor:pointer}
+.dropdown{position:absolute;right:0;top:35px;background:#fff;border:1px solid var(--border);border-radius:9px;box-shadow:var(--shadow);display:none;z-index:300;width:190px;overflow:hidden}.dropdown.show{display:block}.dropdown-item{padding:12px 14px;font-size:13px;display:flex;gap:10px;align-items:center;cursor:pointer}.dropdown-item:hover{background:#f5f8f8}.dropdown-item.logout{color:var(--red)}
+.notif-dropdown{width:290px;padding:13px}.notif-header{font-size:12px;line-height:1.5;background:#e8f5f5;color:var(--teal);padding:11px;border-radius:7px}
+.sidebar{position:fixed;top:64px;left:-285px;width:270px;height:calc(100vh - 64px);background:#fff;border-right:1px solid var(--border);transition:left .25s;z-index:90;overflow:auto;padding:12px 8px}.sidebar.open{left:0}
+.sidebar .nav-label{font-size:10px;text-transform:uppercase;color:#9aa5ac;letter-spacing:1px;padding:15px 14px 7px}
+.sidebar ul{list-style:none}.sidebar li{padding:12px 14px;margin:3px 5px;border-radius:8px;display:flex;align-items:center;gap:13px;font-size:13px;cursor:pointer;color:#526168}.sidebar li i{width:18px;color:var(--teal);text-align:center}.sidebar li:hover,.sidebar li.active{background:#e8f3f3;color:var(--teal);font-weight:600}
+.content{max-width:980px;margin:0 auto;padding:27px 22px 55px}.title{font-size:24px;font-weight:800;color:#263b42;margin-bottom:19px}.subtitle{font-size:13px;color:var(--muted);margin-top:-12px;margin-bottom:20px}
+.card{background:#fff;border:1px solid #edf0f2;border-radius:11px;padding:21px;margin-bottom:17px;box-shadow:var(--shadow)}
+.empty{text-align:center;padding:65px 15px;color:var(--muted)}.empty i{display:block;font-size:48px;color:#dce5e8;margin-bottom:15px}
+.subject-card{background:#fff;border-radius:10px;padding:17px 19px;display:flex;align-items:center;gap:14px;border:1px solid #edf0f2;border-left:4px solid transparent;box-shadow:var(--shadow);margin-bottom:12px;cursor:pointer}.subject-card:hover{transform:translateY(-1px)}.subject-card i.sub-icon{font-size:19px}.subject-card .chev{margin-left:auto;color:#b4bec3;font-size:12px}
+.s-phy{border-left-color:#e91e63}.s-phy i{color:#e91e63}.s-chem{border-left-color:#2196f3}.s-chem i{color:#2196f3}.s-bio{border-left-color:#9c27b0}.s-bio i{color:#9c27b0}.s-reason{border-left-color:#fbc02d}.s-reason i{color:#d49b00}
+.breadcrumb{font-size:12px;color:var(--teal);margin-bottom:13px;cursor:pointer}.batch-title{font-size:18px;font-weight:700;margin-bottom:20px}.tabs{display:flex;gap:24px;border-bottom:1px solid var(--border);margin-bottom:20px;overflow:auto}.tab{padding:10px 0;font-size:13px;white-space:nowrap;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent}.tab.active{color:var(--teal);border-bottom-color:var(--teal);font-weight:700}
+.resource-list,.chapter-list{display:flex;flex-direction:column;gap:10px}.resource-item{background:#fff;padding:15px;border-radius:9px;display:flex;align-items:center;gap:14px;border:1px solid var(--border);cursor:pointer}.resource-item:hover{border-color:#9acacc}.resource-item strong{font-size:13px}.resource-item small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.res-icon-pdf{color:var(--red);font-size:20px}.res-icon-vid{color:#2196f3;font-size:20px}
+.chapter-item{background:#fff;border:1px solid var(--border);border-radius:9px;overflow:hidden}.chapter-header{padding:14px;display:flex;align-items:center;gap:13px;cursor:pointer;font-size:13px;font-weight:600}.chapter-num{background:var(--teal);color:white;width:30px;height:30px;display:grid;place-items:center;border-radius:7px;font-size:12px}.chapter-count{margin-left:auto;font-size:11px;color:var(--muted);font-weight:400}.chapter-body{display:none;padding:13px;background:#fafcfc;border-top:1px solid var(--border)}.chapter-body.open{display:block}.topic-row{background:#fff;border:1px solid #edf0f2;padding:12px;border-radius:7px;margin:7px 0;font-size:12px;display:flex;align-items:center;gap:9px}.topic-row i{color:var(--teal)}
+.doubt-card{background:#fff;padding:19px;border-radius:10px;margin-bottom:13px;box-shadow:var(--shadow);display:flex;gap:13px}.d-avatar{width:39px;height:39px;border-radius:50%;background:#e7eeee;display:grid;place-items:center;font-weight:700;color:#526168;flex-shrink:0}.d-tags{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}.tag{background:#eff4f4;font-size:10px;padding:4px 8px;border-radius:5px;color:#59686e}.badge-resolved{background:#dff3e6;color:#17633a;font-size:10px;padding:4px 8px;border-radius:15px;margin-left:7px}.d-text{font-size:12px;color:#5e6b70;line-height:1.6;margin:8px 0}
+.test-card{background:#fff;padding:20px;border-radius:10px;margin-bottom:15px;box-shadow:var(--shadow);position:relative;border:1px solid #edf0f2}.badge-upcoming{border:1px solid #9bc8ff;color:#1670c5;font-size:10px;padding:4px 8px;border-radius:5px;position:absolute;top:19px;right:19px;background:#f2f8ff}.timer-box{background:#e8f4f4;color:var(--teal);padding:14px;text-align:center;border-radius:8px;margin:15px 0;font-size:16px;font-weight:700}.test-meta{font-size:11px;color:var(--muted);line-height:2}
+.chat-panel{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}.chat-heading{padding:15px 18px;border-bottom:1px solid var(--border);font-weight:700;font-size:13px}.chat-messages{height:340px;overflow:auto;padding:17px;display:flex;flex-direction:column;gap:13px}.msg{max-width:80%;align-self:flex-start}.msg.mine{align-self:flex-end}.msg-bubble{background:#eef2f3;padding:10px 13px;border-radius:10px;font-size:12px;line-height:1.5}.msg.mine .msg-bubble{background:#e0f2f1}.msg-author{font-size:10px;color:var(--teal);margin-bottom:4px;font-weight:700}.msg-time{font-size:9px;color:#9aa5aa;text-align:right;margin-top:4px}.chat-input{padding:13px;border-top:1px solid var(--border);display:flex;gap:9px}.chat-input input{flex:1;min-width:0;padding:11px 14px;border:1px solid var(--border);border-radius:22px;outline:0;font-size:12px}
+.field{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:7px;outline:0;font-size:13px}.form-group{margin-bottom:14px}.form-group label{display:block;margin-bottom:7px;font-size:12px;font-weight:600}.avatar-place{width:75px;height:75px;background:#eff4f4;border-radius:50%;display:grid;place-items:center;color:#9ba8ad;margin-bottom:17px}
+.modal-overlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}.modal-overlay.show{display:flex}.modal{background:#fff;padding:27px;border-radius:12px;width:100%;max-width:410px;text-align:center;box-shadow:0 15px 40px #0002}.modal-btns{display:flex;gap:10px;justify-content:center;margin-top:20px}.btn-cancel,.btn-yes{padding:9px 18px;border-radius:7px;border:1px solid var(--border);background:white}.btn-yes{border-color:var(--red);color:var(--red)}
+.notice{background:#e9f5f5;border:1px solid #d6eaea;color:#27666a;padding:13px 15px;border-radius:8px;font-size:12px;line-height:1.6;margin-bottom:17px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}.stat{background:white;padding:16px;border:1px solid #edf0f2;border-radius:10px}.stat strong{font-size:21px;color:var(--teal);display:block}.stat span{font-size:11px;color:var(--muted)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#263b42;color:white;padding:11px 16px;border-radius:8px;font-size:12px;z-index:1200;box-shadow:var(--shadow);display:none}.toast.show{display:block}
+@media(min-width:900px){.sidebar.open~.content{margin-left:285px}.content{padding-top:32px}}
+@media(max-width:600px){header{padding:0 13px}.header-left,.header-right{gap:11px}.brand-small{font-size:16px}.batch{display:none}.content{padding:22px 14px 40px}.title{font-size:21px}.login-box{padding:28px 22px}.stat-grid{grid-template-columns:1fr 1fr}.badge-upcoming{position:static;display:inline-block;margin-bottom:12px}.doubt-card{padding:14px}.chat-messages{height:calc(100vh - 250px)}}
+
+/* Compatibility styles from the supplied profile and modal snippet */
+.avatar-place{width:80px;height:80px;background:#f0f4f4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#9aa5aa;margin-bottom:20px;border:1px dashed #cbd5d9}
+.form-group label span{color:var(--red)}
+.form-group input{width:100%;padding:12px;border:1px solid var(--border);border-radius:6px;font-size:14px;outline:none}
+.form-group input:focus{border-color:var(--teal)}
+.save-btn{background:var(--teal);color:white;border:0;padding:10px 20px;border-radius:6px;cursor:pointer;float:right}
+.clearfix:after{content:"";clear:both;display:table}
+
+
+
+/* Added video lesson and interactive practice test */
+.video-lesson-card{max-width:760px;overflow:hidden;padding:0}
+.video-frame{position:relative;width:100%;aspect-ratio:16/9;background:#101820}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-details{padding:18px}
+.video-details h3{margin:10px 0 5px;font-size:17px}
+.video-details p{font-size:12px;color:var(--muted);margin-bottom:10px}
+.quiz-card{margin-top:18px;max-width:760px}
+.quiz-question{padding:14px 0;border-bottom:1px solid var(--border)}
+.quiz-question p{font-size:13px;margin-bottom:9px}
+.quiz-question label{display:block;padding:7px 9px;margin:5px 0;border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer}
+.quiz-question label:has(input:checked){border-color:var(--teal);background:#eaf7f7}
+.quiz-question input{accent-color:var(--teal);margin-right:7px}
+.quiz-card .btn{margin-top:14px;margin-right:8px}
+.btn-secondary{background:#e8eef0!important;color:#334!important}
+.quiz-result{margin-top:14px;font-size:13px;line-height:1.7}
+.quiz-result:empty{display:none}
+.quiz-feedback{padding:9px 11px;margin:7px 0;border-radius:8px;background:#f3f6f7}
+
+
+/* Reaction Kinetics timed test */
+.rk-test{max-width:760px}.rk-meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:12px 0}.rk-pill{background:#e8f4f4;color:var(--teal);padding:7px 10px;border-radius:7px;font-weight:700}.rk-q{background:#fff;border:1px solid var(--border);border-radius:9px;padding:17px;margin:13px 0}.rk-q p{font-size:13px;line-height:1.6;margin-bottom:12px}.rk-opt{display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid var(--border);border-radius:7px;margin:7px 0;font-size:12px;cursor:pointer}.rk-opt:has(input:checked){border-color:var(--teal);background:#edf8f8}.rk-opt input{margin-top:2px;accent-color:var(--teal)}.rk-review{border-left:4px solid var(--teal);background:#f7fafa;padding:12px;border-radius:7px;margin:9px 0;font-size:12px;line-height:1.6}.rk-review.wrong{border-left-color:var(--red)}.rk-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.rk-actions button{flex:1;min-width:130px}.rk-timer{font-size:20px;font-weight:800;color:var(--teal)}
+
+/* Published chapter tests open as a full-screen mobile-friendly assessment. */
+#active-published-test{position:fixed!important;inset:0!important;z-index:9999!important;overflow-y:auto!important;max-width:none!important;width:100%!important;height:100dvh!important;margin:0!important;border-radius:0!important;padding:calc(18px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom))!important;background:var(--bg,#f4f7f8)!important;box-sizing:border-box!important}
+#active-published-test .quiz-question{background:var(--white,#fff);border:1px solid var(--border,#e5e9eb);border-radius:9px;padding:15px;margin:12px 0}
+#active-published-test .quiz-question label{padding:9px;border:1px solid var(--border,#e5e9eb);border-radius:7px;margin:7px 0;cursor:pointer}
+#active-published-test .quiz-question input{accent-color:var(--teal,#007b83);margin-right:6px}
+
+</style>
+<style>
+/* ===== Ijmatics Stage 1 additions: secure MCQ test system ===== */
+.s1-overlay{position:fixed;inset:0;background:var(--bg);z-index:2000;display:flex;flex-direction:column;overflow:auto;color:var(--text)}
+.s1-head{background:var(--teal);color:#fff;padding:12px 18px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:2}
+.s1-head b{font-size:17px}.s1-head .s1-ttl{flex:1;font-size:13px;opacity:.92;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s1-timer{background:#ffffff26;border-radius:8px;padding:6px 12px;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+.s1-timer.low{background:var(--red)}
+.s1-body{display:flex;gap:18px;max-width:1040px;width:100%;margin:0 auto;padding:20px 16px 40px;align-items:flex-start}
+.s1-main{flex:1;min-width:0}
+.s1-side{width:230px;flex-shrink:0}
+.s1-pal{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.s1-pal button{border:1px solid var(--border);background:#fff;border-radius:7px;padding:8px 0;font-weight:600;font-size:12px;color:var(--text)}
+.s1-pal button.done{background:#eaf7f7;border-color:var(--teal);color:var(--teal-dark)}
+.s1-pal button.cur{background:var(--teal);color:#fff;border-color:var(--teal)}
+.s1-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.s1-opt{display:block;padding:11px 12px;margin:8px 0;border:1px solid var(--border);border-radius:8px;font-size:14px;cursor:pointer;background:#fff}
+.s1-opt:has(input:checked){border-color:var(--teal);background:#eaf7f7}
+.s1-opt input{accent-color:var(--teal);margin-right:8px}
+.s1-rev{padding:14px 0;border-bottom:1px solid var(--border)}
+.s1-rev .ok{color:var(--green);font-weight:700}.s1-rev .bad{color:var(--red);font-weight:700}.s1-rev .na{color:var(--muted);font-weight:700}
+.s1-rev .opt{padding:7px 10px;margin:5px 0;border:1px solid var(--border);border-radius:7px;font-size:13px;background:#fff}
+.s1-rev .opt.right{border-color:var(--green);background:#e9f7ef}.s1-rev .opt.wrong{border-color:var(--red);background:#fdecee}
+.s1-score{font-size:30px;font-weight:800;color:var(--teal-dark)}
+.s1-row{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;flex-wrap:wrap}
+.s1-row .acts{display:flex;gap:6px;flex-wrap:wrap}
+.s1-row .btn{padding:7px 11px;font-size:12px}
+.s1-q-admin{position:relative}.s1-q-tools{display:flex;gap:6px;margin-bottom:8px}.s1-q-tools .btn{padding:5px 10px;font-size:12px}
+.s1-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:#eaf7f7;color:var(--teal-dark);font-weight:600}.s1-pill.draft{background:#fff4e0;color:#9a6200}
+@media(max-width:720px){.s1-body{flex-direction:column-reverse}.s1-side{width:100%}}
+</style>
+<style>
+/* ===== Ijmatics Stage 2 additions ===== */
+#s2-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px}
+#s2-tabs .tab{cursor:pointer;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;background:#fff}
+#s2-tabs .tab.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+#s2-panel .s1-row .btn,#s2-panel .btn{font-size:12px}
+.s1-rev{word-break:break-word}
+</style>
+</head>
+<body>
+<div id="login-page">
+  <div class="login-box">
+    <div class="logo"><div class="logo-circle"><i class="fa-solid fa-brain"></i></div> Ijmatics</div>
+    <div class="login-sub">Your learning journey starts here</div>
+    <form id="login-form">
+      <div class="input-box"><i class="fa-regular fa-user"></i><input id="login-email" type="text" placeholder="Email or phone number" autocomplete="username" required></div>
+      <div class="input-box"><i class="fa-solid fa-lock"></i><input id="login-password" type="password" placeholder="Password" autocomplete="current-password" required></div>
+      <button class="btn full" type="submit">Log in</button>
+    </form>
+    <div class="demo-hint">Sign in with the email and password registered in Firebase Authentication.</div>
+  </div>
+</div>
+
+<div id="app-page" class="hidden">
+<header>
+  <div class="header-left"><i class="fa-solid fa-bars menu-btn" onclick="toggleMenu()"></i><div class="brand-small">Ijmatics</div><div class="batch">MDCAT Batch <i class="fa-solid fa-chevron-down" style="font-size:9px"></i></div></div>
+  <div class="header-right">
+    <i class="fa-brands fa-youtube" style="color:#dc3545" title="YouTube"></i>
+    <div class="user-menu"><i class="fa-solid fa-bell" onclick="toggleDropdown('notif-dd')"></i><div id="notif-dd" class="dropdown notif-dropdown"><div class="notif-header"><i class="fa-solid fa-bell"></i> Notifications are currently demo-only. New announcements will appear here when connected to a backend.</div></div></div>
+    <i class="fa-solid fa-moon" onclick="toggleTheme()" title="Toggle theme"></i>
+    <div class="user-menu"><i class="fa-regular fa-circle-user" onclick="toggleDropdown('user-dd')"></i><div id="user-dd" class="dropdown"><div class="dropdown-item" onclick="showPage('profile')"><i class="fa-solid fa-gear"></i> Settings / Profile</div><div class="dropdown-item logout" onclick="showLogoutModal()"><i class="fa-solid fa-power-off"></i> Logout</div></div></div>
+  </div>
+</header>
+<nav class="sidebar" id="menu">
+  <div class="nav-label">Learning</div>
+  <ul>
+    <li class="active" data-page="notice" onclick="showPage('notice')"><i class="fa-solid fa-bullhorn"></i> Notice Board</li>
+    <li data-page="subjects" onclick="showPage('subjects')"><i class="fa-solid fa-book"></i> My Course Content</li>
+    <li data-page="guidance" onclick="showPage('guidance')"><i class="fa-solid fa-book-open"></i> Guidance Section</li>
+    <li data-page="tests" onclick="showPage('tests')"><i class="fa-solid fa-clipboard-list"></i> Evaluation Corner</li>
+    <li data-page="live" onclick="showPage('live')"><i class="fa-solid fa-play-circle"></i> Live Classes</li>
+    <li data-page="past-papers" onclick="showPage('past-papers')"><i class="fa-solid fa-file-lines"></i> Past Paper Marathons</li>
+    <li data-page="performance" onclick="showPage('performance')"><i class="fa-solid fa-chart-line"></i> My Performance</li>
+    <li data-page="challenges" onclick="showPage('challenges')"><i class="fa-solid fa-trophy"></i> Daily Challenge &amp; Leaderboard</li>
+  </ul>
+  <div class="nav-label">Community</div>
+  <ul>
+    <li data-page="chat" onclick="showPage('chat')"><i class="fa-solid fa-comment-dots"></i> Chat</li>
+    <li data-page="doubts" onclick="showPage('doubts')"><i class="fa-solid fa-circle-question"></i> Subject Doubts</li>
+    <li data-page="community" onclick="showPage('community')"><i class="fa-solid fa-users"></i> Student Community</li>
+    <li data-page="admin" onclick="showPage('admin')"><i class="fa-solid fa-file-invoice"></i> Admin Issues</li>
+  </ul>
+  <div class="nav-label" id="admin-nav-label" style="display:none">Administration</div>
+  <ul><li id="admin-nav-item" style="display:none" data-page="admin-dashboard" onclick="showPage('admin-dashboard')"><i class="fa-solid fa-shield-halved"></i> Admin Dashboard</li></ul>
+  <div class="nav-label" id="teacher-nav-label" style="display:none">Teaching</div>
+  <ul><li id="teacher-nav-item" style="display:none" data-page="teacher" onclick="showPage('teacher')"><i class="fa-solid fa-chalkboard-user"></i> Teacher Tools</li></ul>
+  <div class="nav-label">Account</div>
+  <ul><li data-page="profile" onclick="showPage('profile')"><i class="fa-solid fa-user-gear"></i> Update Profile</li></ul>
+</nav>
+
+<main>
+<section id="page-notice" class="content page show">
+  <h1 class="title">Welcome to Ijmatics</h1><p class="subtitle">Your study space for MDCAT and intermediate preparation.</p>
+  <div class="stat-grid"><div class="stat"><strong>4</strong><span>Learning subjects</span></div><div class="stat"><strong>0</strong><span>Tests attempted</span></div><div class="stat"><strong>0%</strong><span>Average accuracy</span></div></div>
+  <div class="card"><h3 style="font-size:15px;margin-bottom:8px">Notice Board</h3><div class="empty"><i class="fa-solid fa-box-open"></i><p>No announcements in the last 7 days.</p></div></div>
+</section>
+
+<section id="page-subjects" class="content page">
+  <h1 class="title">My Course Content</h1><p class="subtitle">Choose a subject to explore chapters and learning resources.</p>
+  <div class="subject-card s-phy" onclick="openSubject('Physics')"><i class="fa-solid fa-atom sub-icon"></i><strong>Physics</strong><i class="fa-solid fa-chevron-right chev"></i></div>
+  <div class="subject-card s-chem" onclick="openSubject('Chemistry')"><i class="fa-solid fa-flask sub-icon"></i><strong>Chemistry</strong><i class="fa-solid fa-chevron-right chev"></i></div>
+  <div class="subject-card s-reason" onclick="openSubject('Logical Reasoning')"><i class="fa-solid fa-brain sub-icon"></i><strong>MDCAT Logical Reasoning</strong><i class="fa-solid fa-chevron-right chev"></i></div>
+  <div class="subject-card s-bio" onclick="openSubject('Biology')"><i class="fa-solid fa-dna sub-icon"></i><strong>Biology</strong><i class="fa-solid fa-chevron-right chev"></i></div>
+</section>
+
+<section id="page-subject-content" class="content page">
+  <div class="breadcrumb" onclick="showPage('subjects')"><i class="fa-solid fa-arrow-left"></i> Back to subjects</div>
+  <div class="batch-title" id="subject-heading">Physics</div>
+  <div class="tabs"><div class="tab active" data-tab="chapters" onclick="toggleSubjectTab('chapters')">Chapters</div><div class="tab" data-tab="resources" onclick="toggleSubjectTab('resources')">Subject Level Learning Resources</div></div>
+  <div id="subject-chapters">
+    <div class="card" style="padding:14px;cursor:pointer" onclick="showPage('guidance')"><i class="fa-solid fa-book-open" style="color:var(--teal);margin-right:9px"></i><strong style="font-size:13px">Guidance Section</strong></div>
+    <div class="chapter-list" id="dynamic-chapters"></div>
+  </div>
+  <div id="subject-resources" class="resource-list hidden">
+    <div class="resource-item" onclick="resourceNotice('Subject notes PDF')"><i class="fa-regular fa-file-pdf res-icon-pdf"></i><div><strong>Subject Notes</strong><small>PDF resource placeholder</small></div></div>
+    <div class="resource-item" onclick="resourceNotice('Text books')"><i class="fa-regular fa-file-lines res-icon-vid"></i><div><strong>Text Books</strong><small>Document resource placeholder</small></div></div>
+    <div class="resource-item" onclick="resourceNotice('Practice book')"><i class="fa-regular fa-file-pdf res-icon-pdf"></i><div><strong>Practice Book</strong><small>PDF resource placeholder</small></div></div>
+  </div>
+</section>
+
+<section id="page-guidance" class="content page">
+  <div class="breadcrumb" onclick="showPage('subjects')"><i class="fa-solid fa-arrow-left"></i> Back to courses</div><h1 class="title">Guidance Section</h1>
+  <div class="resource-list">
+    <div class="resource-item" onclick="resourceNotice('SOS PDF')"><i class="fa-regular fa-file-pdf res-icon-pdf"></i><div><strong>SOS</strong><small>PDF</small></div></div>
+    <div class="resource-item" onclick="resourceNotice('Batch Guidance Class')"><i class="fa-regular fa-circle-play res-icon-vid"></i><div><strong>Batch Guidance Class</strong><small>Video</small></div></div>
+    <div class="resource-item" onclick="resourceNotice('Time Table PDF')"><i class="fa-regular fa-file-pdf res-icon-pdf"></i><div><strong>Time Table</strong><small>PDF</small></div></div>
+  </div>
+</section>
+
+<section id="page-tests" class="content page">
+  <h1 class="title">Evaluation Corner</h1><p class="subtitle">Upcoming tests and your assessment history.</p>
+  <div class="test-card"><span class="badge-upcoming"><i class="fa-regular fa-clock"></i> Upcoming</span><h3 style="font-size:15px;margin-bottom:10px">Chemistry | Fortnightly Test 05</h3><div class="timer-box">Scheduled for<br>17 Nov 2026, 08:00 AM</div><div class="test-meta"><div><i class="fa-regular fa-clock"></i> Duration: 25 min</div><div><i class="fa-regular fa-user"></i> Teacher: Sir Fakhr Husnain</div><div><i class="fa-regular fa-calendar"></i> Starts: 17 Nov 2026, 08:00 AM</div></div><a class="link" href="#" onclick="event.preventDefault();toast('Syllabus PDF will be available when uploaded.')">View syllabus</a></div>
+  <div class="test-card"><span class="badge-upcoming">Upcoming</span><h3 style="font-size:15px;margin-bottom:10px">Chemistry | Fortnightly Test 05</h3><div class="timer-box">Scheduled for<br>17 Nov 2026, 08:00 AM</div><div class="test-meta"><div>Duration: 25 min</div><div>Teacher: Sir Saad Waqar</div></div></div>
+  <div class="card quiz-card">
+    <span class="tag">Practice test · Physics</span>
+    <h3 style="margin:10px 0 6px">R-C Series Circuit — Quick Test</h3>
+    <p class="subtitle">5 MCQs · Select one answer for each question, then submit.</p>
+    <form id="rc-quiz">
+      <div class="quiz-question"><p><strong>1.</strong> What is the capacitive reactance of a capacitor?</p>
+        <label><input type="radio" name="q1" value="a"> A. Xc = ωC</label><label><input type="radio" name="q1" value="b"> B. Xc = 1/(ωC)</label><label><input type="radio" name="q1" value="c"> C. Xc = R/C</label></div>
+      <div class="quiz-question"><p><strong>2.</strong> In a series R-C AC circuit, the impedance is:</p>
+        <label><input type="radio" name="q2" value="a"> A. R + Xc</label><label><input type="radio" name="q2" value="b"> B. R − Xc</label><label><input type="radio" name="q2" value="c"> C. √(R² + Xc²)</label></div>
+      <div class="quiz-question"><p><strong>3.</strong> In an ideal capacitor, current:</p>
+        <label><input type="radio" name="q3" value="a"> A. Leads capacitor voltage by 90°</label><label><input type="radio" name="q3" value="b"> B. Lags capacitor voltage by 90°</label><label><input type="radio" name="q3" value="c"> C. Is always in phase with voltage</label></div>
+      <div class="quiz-question"><p><strong>4.</strong> The power factor of a series R-C circuit is:</p>
+        <label><input type="radio" name="q4" value="a"> A. Xc/Z</label><label><input type="radio" name="q4" value="b"> B. R/Z</label><label><input type="radio" name="q4" value="c"> C. Z/R</label></div>
+      <div class="quiz-question"><p><strong>5.</strong> If frequency increases, capacitive reactance:</p>
+        <label><input type="radio" name="q5" value="a"> A. Increases</label><label><input type="radio" name="q5" value="b"> B. Remains unchanged</label><label><input type="radio" name="q5" value="c"> C. Decreases</label></div>
+      <button class="btn" type="submit">Submit Test</button>
+      <button class="btn btn-secondary" type="button" onclick="resetRCQuiz()">Try Again</button>
+    </form>
+    <div id="rc-quiz-result" class="quiz-result" aria-live="polite"></div>
+  </div>
+  <div class="card rk-test" id="reaction-kinetics-card">
+    <span class="tag">Chemistry · Chapter Test</span>
+    <h3 style="font-size:17px;margin:10px 0 5px">Reaction Kinetics</h3>
+    <p style="font-size:12px;color:var(--muted)">Chemistry Quick Practice Book · 4 MCQs</p>
+    <div class="rk-meta"><span class="rk-pill">Time: 25 minutes</span><span class="rk-pill">Marks: 4</span><span class="rk-pill">1 mark each</span></div>
+    <div id="rk-start-panel"><p style="font-size:12px;line-height:1.6;color:var(--muted)">Your countdown starts when you press Start Test. Submit before time runs out. You can review this attempt later on this same device.</p><button class="btn" type="button" onclick="startReactionKinetics()">Start Test</button></div>
+    <div id="rk-test-panel" class="hidden"><div class="timer-box">Time remaining: <span class="rk-timer" id="rk-timer">25:00</span></div><div id="rk-questions"></div><button class="btn full" type="button" onclick="submitReactionKinetics(false)">Submit Test</button></div>
+    <div id="rk-result-panel" class="hidden" aria-live="polite"></div>
+    <div id="rk-history-panel" style="margin-top:15px"></div>
+  </div>
+  <div class="card"><strong style="font-size:13px">Your results</strong><p style="font-size:12px;color:var(--muted);margin-top:8px">Reaction Kinetics attempts and review are stored locally in this browser on this device.</p></div>
+</section>
+
+<section id="page-chat" class="content page">
+  <h1 class="title">Batch Chat</h1><div class="chat-panel"><div class="chat-heading"><span style="background:var(--teal);color:white;padding:6px 9px;border-radius:50%;margin-right:8px">MD</span>MDCAT Batch 2.0</div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg"><div class="msg-author">Aftab Ahmed Gorchani</div><div class="msg-bubble">Assalam-o-Alaikum<div class="msg-time">07:46 PM</div></div></div>
+    <div class="msg"><div class="msg-author">Ali Shaheer</div><div class="msg-bubble">Walaikum Assalam<div class="msg-time">01:37 PM</div></div></div>
+    <div class="msg"><div class="msg-author">Ali Shaheer</div><div class="msg-bubble">Where can I see the timetable for my classes?<div class="msg-time">01:40 PM</div></div></div>
+  </div><form class="chat-input" id="chat-form"><input id="chat-text" placeholder="Type a message..." autocomplete="off"><button class="btn" type="submit" style="border-radius:22px;padding:9px 15px"><i class="fa-solid fa-paper-plane"></i></button></form></div>
+</section>
+
+<section id="page-admin" class="content page">
+  <h1 class="title">Admin Issues</h1><button class="btn" onclick="openIssueForm()" style="margin-bottom:18px">+ Raise an issue</button><div id="issue-form" class="card hidden"><div class="form-group"><label>Issue title</label><input class="field" id="issue-title" placeholder="Describe the issue"></div><div class="form-group"><label>Details</label><textarea class="field" id="issue-details" rows="3" placeholder="Add more information"></textarea></div><button class="btn" onclick="submitIssue()">Submit issue</button></div>
+  <div class="tabs"><div class="tab active">Opened by You</div><div class="tab">Resolved by Admin</div></div><div id="issues-list" style="font-size:12px;color:var(--muted)">No issues found.</div>
+</section>
+
+<section id="page-live" class="content page">
+  <h1 class="title">Video Lessons</h1>
+  <p class="subtitle">Watch recorded lessons and revise important concepts.</p>
+  <div class="card video-lesson-card">
+    <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/HPckJgglxWU" title="R-C Series Circuit - Physics Chapter 15" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+    <div class="video-details"><span class="tag">Physics · Inter Part 2</span><h3>R-C Series Circuit</h3><p>Chapter 15 · PGC Lectures · KPK Board</p><a class="link" href="https://youtu.be/HPckJgglxWU" target="_blank" rel="noopener">Open on YouTube ↗</a></div>
+  </div>
+</section>
+<section id="page-doubts" class="content page">
+  <h1 class="title">Subject Doubts</h1><button class="btn" onclick="openDoubtForm()" style="margin-bottom:18px">+ Ask a Question</button>
+  <div id="doubt-form" class="card hidden"><div class="form-group"><label>Subject</label><select id="doubt-subject" class="field"><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Logical Reasoning</option></select></div><div class="form-group"><label>Question title</label><input id="doubt-title" class="field" placeholder="Enter a short title"></div><div class="form-group"><label>Your question</label><textarea id="doubt-question" class="field" rows="3" placeholder="Write your question here"></textarea></div><button class="btn" onclick="submitDoubt()">Post question</button></div>
+  <div id="doubt-list">
+    <div class="doubt-card"><div class="d-avatar">R</div><div><h4 style="font-size:13px">Rahib Khan <span class="badge-resolved">Resolved</span></h4><div class="d-tags"><span class="tag">Subject: Biology</span><span class="tag">Batch: MDCAT 2.0</span></div><strong style="font-size:12px">Sliding filament theory</strong><div class="d-text">The region of overlapping between actin and myosin filaments — what does region mean here?</div><a href="#" class="link" onclick="event.preventDefault();toast('Discussion preview only.')">View Discussion &gt;</a></div></div>
+    <div class="doubt-card"><div class="d-avatar">A</div><div><h4 style="font-size:13px">Amir Muhammad <span class="badge-resolved">Resolved</span></h4><div class="d-tags"><span class="tag">Subject: Biology</span><span class="tag">Batch: MDCAT 2.0</span></div><strong style="font-size:12px">MCQ word clarification</strong><div class="d-text">A student asked for clarification about a word in a Biology MCQ.</div><a href="#" class="link" onclick="event.preventDefault();toast('Discussion preview only.')">View Discussion &gt;</a></div></div>
+  </div>
+</section>
+<section id="page-past-papers" class="content page"><h1 class="title">Past Paper Marathons</h1><div class="empty"><i class="fa-solid fa-file-circle-question"></i><p>No universities or past-paper sets have been added yet.</p></div></section>
+<section id="page-admin-dashboard" class="content page">
+  <h1 class="title">Admin Dashboard</h1>
+  <p class="subtitle">Manage Ijmatics announcements and learning resources.</p>
+  <div class="notice">Admin access is assigned to the verified Firebase account <b>jahangeerahmedu@gmail.com</b>. Firestore security rules must also be published for write access.</div>
+  <div class="card"><h3 style="font-size:15px;margin-bottom:14px">Publish a notice</h3>
+    <div class="form-group"><label>Notice title</label><input id="admin-notice-title" class="field" placeholder="e.g. Weekly test announcement"></div>
+    <div class="form-group"><label>Notice details</label><textarea id="admin-notice-body" class="field" rows="3" placeholder="Write the announcement"></textarea></div>
+    <button class="btn" onclick="adminPublishNotice()">Publish notice</button>
+  </div>
+  <div class="card"><h3 style="font-size:15px;margin-bottom:14px">Add learning resource</h3>
+    <div class="form-group"><label>Subject</label><select id="admin-material-subject" class="field" onchange="populateChapterSelect('admin-material-subject','admin-material-chapter')"><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Logical Reasoning</option></select></div>
+    <div class="form-group"><label>Chapter</label><select id="admin-material-chapter" class="field"><option value="">Select a subject first</option></select></div>
+    <div class="form-group"><label>Resource title</label><input id="admin-material-title" class="field" placeholder="Lecture or notes title"></div>
+    <div class="form-group"><label>Resource link (optional)</label><input id="admin-material-url" class="field" type="url" placeholder="https://..."></div>
+    <button class="btn" onclick="adminAddMaterial()">Save resource</button>
+  </div>
+  <div class="card"><h3 style="font-size:15px;margin-bottom:14px">Create chapter MCQ test</h3>
+    <div class="form-group"><label>Subject</label><select id="admin-test-subject" class="field" onchange="populateChapterSelect('admin-test-subject','admin-test-chapter')"><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Logical Reasoning</option></select></div>
+    <div class="form-group"><label>Chapter</label><select id="admin-test-chapter" class="field"></select></div>
+    <div class="form-group"><label>Test title</label><input id="admin-test-title" class="field" placeholder="e.g. Chapter Practice Test"></div>
+    <div class="form-group"><label>Duration (minutes)</label><input id="admin-test-duration" class="field" type="number" min="1" max="180" value="20"></div>
+    <div class="form-group"><label>Instructions for students (optional)</label><textarea id="admin-test-instructions" class="field" rows="3" placeholder="Shown before the test starts"></textarea></div>
+    <div class="form-group"><label>Show marks and correct answers</label><select id="admin-test-release" class="field"><option value="immediate">Immediately after the student submits</option><option value="manual">Only after I release them</option></select></div>
+    <small id="s1-edit-label" style="display:block;margin-bottom:10px;color:var(--teal-dark);font-weight:600"></small>
+    <div id="admin-test-questions"></div>
+    <button class="btn btn-secondary" type="button" onclick="addAdminQuestion()">+ Add MCQ</button>
+    <button class="btn" type="button" onclick="adminPublishTest()" style="margin-left:8px">Publish test</button>
+    <button class="btn btn-secondary" type="button" onclick="s1SaveTest(false)" style="margin-left:8px">Save draft</button>
+    <button class="btn btn-secondary" type="button" onclick="s1PreviewTest()" style="margin-left:8px">Preview</button>
+    <button class="btn btn-secondary" type="button" onclick="s1ResetForm()" style="margin-left:8px">Clear form</button>
+  </div>
+  <div class="card"><h3 style="font-size:15px;margin-bottom:6px">Advanced Admin Panel</h3><p class="subtitle" style="margin-top:0;margin-bottom:6px">Students, teachers, subjects, chapters, resources, tests, notices, results, community, challenges and analytics.</p><div id="s2-tabs"></div><div id="s2-panel"><small>Choose a section above.</small></div></div>
+  <div class="card"><h3 style="font-size:15px;margin-bottom:6px">Manage MCQ tests</h3><p class="subtitle" style="margin-top:0;margin-bottom:10px">Edit, publish, unpublish, release answers or delete tests.</p><button class="btn btn-secondary" style="margin-bottom:10px" onclick="s1SecureOldTests()">Secure existing tests (hide answers from students)</button><div id="admin-tests-list" class="empty">Loading tests…</div></div>
+  <div class="card"><h3 style="font-size:15px;margin-bottom:12px">Published notices</h3><div id="admin-notices-list" class="empty">Loading notices…</div></div>
+  <div class="card"><h3 style="font-size:15px;margin-bottom:12px">Saved resources</h3><div id="admin-materials-list" class="empty">Loading resources…</div></div>
+</section>
+<section id="page-profile" class="content page">
+  <h1 class="title">Update Profile</h1><div class="card"><div class="avatar-place"><i class="fa-regular fa-image"></i></div><div class="form-group"><label>Full name</label><input id="profile-name" class="field" value="Student"></div><div class="form-group"><label>Email or phone</label><input id="profile-contact" class="field" placeholder="Your contact details"></div><button class="btn" onclick="saveProfile()">Save profile</button></div>
+  <h2 style="font-size:18px;margin:22px 0 13px">Update Password</h2><div class="card"><div class="form-group"><label>Old password</label><input type="password" class="field" id="old-pass"></div><div class="form-group"><label>New password</label><input type="password" class="field" id="new-pass"></div><div class="form-group"><label>Confirm new password</label><input type="password" class="field" id="confirm-pass"></div><button class="btn" onclick="changePassword()">Update password</button></div>
+<div class="card"><h3 style="font-size:15px;margin-bottom:8px">Public display name</h3><p class="subtitle" style="margin-top:0">Shown on the leaderboard and in the community instead of your real name or email.</p><div class="form-group"><input id="s2-public-name" class="field" maxlength="24" placeholder="e.g. Student 7F2A"></div><button class="btn" onclick="s2SavePublicName()">Save display name</button></div>
+</section>
+<section id="page-performance" class="content page"><h1 class="title">My Performance</h1><p class="subtitle">Your test results, progress and topics to practise.</p><div id="s2-perf-body"></div></section>
+<section id="page-challenges" class="content page"><h1 class="title">Daily Challenge &amp; Leaderboard</h1><p class="subtitle">Solve today's challenge and climb the weekly leaderboard. Only your public display name is shown.</p><div id="s2-chal-body"></div></section>
+<section id="page-community" class="content page"><h1 class="title">Student Community</h1><p class="subtitle">Ask academic questions and help each other. Please do not share personal details.</p>
+<div id="s2-comm-main"><div class="card"><div class="form-group"><label>Subject</label><select id="s2-comm-subject" class="field s2-subj" data-all="1"></select></div><div class="form-group"><label>Chapter</label><select id="s2-comm-chapter" class="field"></select></div><button class="btn" onclick="s2ToggleAsk()">+ Ask a question</button></div>
+<div id="s2-ask-form" class="card hidden"><div class="form-group"><label>Subject</label><select id="s2-new-subject" class="field s2-subj"></select></div><div class="form-group"><label>Chapter</label><select id="s2-new-chapter" class="field"></select></div><div class="form-group"><label>Title</label><input id="s2-new-title" class="field" maxlength="150"></div><div class="form-group"><label>Your question</label><textarea id="s2-new-body" class="field" rows="4" maxlength="3000"></textarea></div><button class="btn" onclick="s2PostQuestion()">Post question</button></div>
+<div id="s2-comm-list"></div></div><div id="s2-comm-thread" class="hidden"></div></section>
+<section id="page-teacher" class="content page"><h1 class="title">Teacher Tools</h1><p class="subtitle">Add and manage notes, PDFs, worksheets, past papers and lectures.</p><div id="s2-teacher-panel"></div></section>
+</main>
+</div>
+
+<div id="logout-modal" class="modal-overlay"><div class="modal"><i class="fa-solid fa-circle-exclamation" style="color:#e6a23c;font-size:30px;margin-bottom:12px"></i><h3 style="margin-bottom:8px">Log out?</h3><p style="font-size:13px;color:var(--muted)">Are you sure you want to log out of Ijmatics?</p><div class="modal-btns"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button class="btn-yes" onclick="confirmLogout()">Yes, log out</button></div></div></div>
+<div id="toast" class="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCaZmMIcL-Yqvf--aVfcnaaBS4mrgYTxmk",
+  authDomain: "ijmatics.firebaseapp.com",
+  projectId: "ijmatics",
+  storageBucket: "ijmatics.firebasestorage.app",
+  messagingSenderId: "148081300033",
+  appId: "1:148081300033:web:50e84b010b0ff7dca76cc0",
+  measurementId: "G-03QSE6CR0P"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const ADMIN_EMAIL = 'jahangeerahmedu@gmail.com';
+let signedInUser = null;
+const subjectData={
+ Physics:[['Basic Maths',1],['Electrostatics',7],['Heat & Thermodynamics',8],['Current Electricity (DC Circuits)',7],['Electromagnetism',2],['Electromagnetic Induction',5],['Alternating Current',4],['Physics of Solids',4],['Electronics',4],['Atomic Spectra',3],['Nuclear Physics',4],['Modern Physics',4]],
+ Chemistry:[['Basic Concepts',5],['Atomic Structure',6],['Chemical Bonding',7],['States of Matter',5],['Chemical Equilibrium',5],['Acids, Bases and Salts',4],['Electrochemistry',5],['Chemical Kinetics',4],['Organic Chemistry',8],['Hydrocarbons',6],['Biochemistry',4]],
+ Biology:[['Cell Biology',7],['Biological Molecules',5],['Enzymes',4],['Bioenergetics',5],['Support and Movement',6],['Coordination and Control',7],['Reproduction',6],['Genetics',8],['Evolution',4],['Ecology',5]],
+ 'Logical Reasoning':[['Critical Thinking',5],['Pattern Recognition',5],['Logical Sequences',5],['Analytical Reasoning',5],['Problem Solving',5]]
+};
+function populateChapterSelect(subjectId,chapterId){
+ const subject=document.getElementById(subjectId).value,select=document.getElementById(chapterId);
+ const chapters=subjectData[subject]||[];select.innerHTML='<option value="">'+(chapters.length?'Select chapter':'No chapters available')+'</option>'+chapters.map(x=>'<option value="'+escapeHtml(x[0])+'">'+escapeHtml(x[0])+'</option>').join('');
+}
+function refreshAdminChapterSelects(){populateChapterSelect('admin-material-subject','admin-material-chapter');populateChapterSelect('admin-test-subject','admin-test-chapter')}
+let currentSubject='Physics', currentUser='Student';
+async function login(){
+ const email=document.getElementById('login-email').value.trim().toLowerCase(),pass=document.getElementById('login-password').value;
+ if(!email||!pass){toast('Enter both email and password.');return}
+ try {
+  const credential=await auth.signInWithEmailAndPassword(email,pass);
+  signedInUser=credential.user;
+  currentUser=(signedInUser.email||'Student').split('@')[0];
+  document.getElementById('login-page').classList.add('hidden');
+  document.getElementById('app-page').classList.remove('hidden');
+  document.getElementById('profile-name').value=currentUser;
+  const isAdmin=signedInUser.emailVerified===true&&(signedInUser.email||'').toLowerCase()===ADMIN_EMAIL;
+  document.getElementById('admin-nav-label').style.display=isAdmin?'block':'none';
+  document.getElementById('admin-nav-item').style.display=isAdmin?'flex':'none';
+  showPage('notice');
+  toast(isAdmin?'Welcome, administrator.':'Welcome to Ijmatics!');
+  loadPublicNotices();
+ } catch(error) {
+  console.error(error);
+  const messages={ 'auth/invalid-credential':'Email or password is incorrect.','auth/user-not-found':'No account found for this email.','auth/wrong-password':'Incorrect password.','auth/too-many-requests':'Too many attempts. Please try again later.' };
+  toast(messages[error.code]||('Login failed: '+error.message));
+ }
+}
+document.getElementById('login-form').addEventListener('submit',e=>{e.preventDefault();login()});
+function toggleMenu(){document.getElementById('menu').classList.toggle('open')}
+function showPage(name){
+ document.querySelectorAll('main .page').forEach(p=>p.classList.remove('show'));
+ const target=document.getElementById('page-'+name);if(target)target.classList.add('show');
+ document.querySelectorAll('.sidebar li').forEach(li=>li.classList.toggle('active',li.dataset.page===name));
+ document.getElementById('menu').classList.remove('open');
+ document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('show'));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleDropdown(id){const el=document.getElementById(id);document.querySelectorAll('.dropdown').forEach(d=>{if(d!==el)d.classList.remove('show')});el.classList.toggle('show')}
+document.addEventListener('click',e=>{if(!e.target.closest('.user-menu'))document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('show'))});
+function openSubject(subject){
+ currentSubject=subject;document.getElementById('subject-heading').textContent=subject+' — Learning Content';
+ const holder=document.getElementById('dynamic-chapters');holder.innerHTML='';
+ (subjectData[subject]||[]).forEach((item,index)=>{
+  const [name,count]=item,chapter=document.createElement('div');chapter.className='chapter-item';
+  chapter.innerHTML=`<div class="chapter-header" onclick="toggleChapter(${index})"><span class="chapter-num">${index+1}</span><span>${name}</span><span class="chapter-count">${count} Topics</span><i class="fa-solid fa-chevron-down" style="font-size:10px;color:#9aa5aa"></i></div><div class="chapter-body" id="chapter-${index}"><h4 style="margin:4px 0 8px;font-size:13px">Lectures &amp; Study Materials</h4><div id="materials-${index}" class="resource-list"><small>Loading resources…</small></div><h4 style="margin:16px 0 8px;font-size:13px">Chapter Tests</h4><div id="tests-${index}"><small>Loading tests…</small></div><div id="attempts-${index}" style="margin-top:12px"></div></div>`;
+  holder.appendChild(chapter);
+ });
+ toggleSubjectTab('chapters');showPage('subject-content');
+}
+
+function togglePhysicsTab(tab){toggleSubjectTab(tab==='resources'?'resources':'chapters')}
+
+async function toggleChapter(index){const el=document.getElementById('chapter-'+index);if(!el)return;el.classList.toggle('open');if(el.classList.contains('open')){await loadChapterContent(index,subjectData[currentSubject][index][0]);}} 
+async function loadChapterContent(index,chapter){
+ const mats=document.getElementById('materials-'+index),tests=document.getElementById('tests-'+index),history=document.getElementById('attempts-'+index);
+ mats.innerHTML='<small>Loading resources…</small>';tests.innerHTML='<small>Loading tests…</small>';
+ try{
+  const ms=await db.collection('materials').where('subject','==',currentSubject).get();
+  const docs=ms.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.chapter||'').trim()===String(chapter).trim());
+  mats.innerHTML=docs.length?docs.map(x=>'<div class="resource-item"><i class="fa-solid fa-circle-play res-icon-vid"></i><div style="flex:1"><strong>'+escapeHtml(x.title||'Learning resource')+'</strong><small>'+escapeHtml(x.type||'Lecture / Study material')+'</small>'+(x.url?'<a class="link" href="'+escapeHtml(x.url)+'" target="_blank" rel="noopener">Open lecture / resource</a>':'<small>Resource link not provided</small>')+'</div></div>').join(''):'<p class="empty">No lectures or study materials published for this chapter yet.</p>';
+  const ts=await db.collection('tests').where('subject','==',currentSubject).get();
+  const testDocs=ts.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.chapter||'').trim()===String(chapter).trim()&&x.published===true);
+  tests.innerHTML=testDocs.length?testDocs.map(t=>'<div class="card"><b>'+escapeHtml(t.title||'Chapter test')+'</b><p class="subtitle">'+((t.questions||[]).length)+' MCQs · '+Number(t.duration||20)+' minutes</p><button class="btn" onclick="startPublishedTest(&quot;'+t.id+'&quot;,'+index+')">Start Test</button></div>').join(''):'<p class="empty">No tests published for this chapter yet.</p>';
+  await loadChapterAttempts(index);
+ }catch(e){console.error(e);mats.innerHTML='<p class="empty">Could not load chapter content. Check Firestore read rules.</p>';tests.innerHTML='<p class="empty">Could not load tests.</p>'}
+}
+async function loadChapterAttempts(index){const host=document.getElementById('attempts-'+index);if(!host||!signedInUser)return;try{const snap=await db.collection('users').doc(signedInUser.uid).collection('results').orderBy('createdAt','desc').limit(10).get();const rows=snap.docs.map(d=>d.data()).filter(x=>x.subject===currentSubject&&x.chapter===subjectData[currentSubject][index][0]);host.innerHTML=rows.length?'<h4 style="font-size:13px">Your results</h4>'+rows.map(x=>'<div class="topic-row">'+escapeHtml(x.testTitle||'Chapter test')+' — '+Number(x.score||0)+'/'+Number(x.total||0)+'</div>').join(''):'<small>Your chapter test results will appear here.</small>'}catch(e){console.warn(e)}}
+let activePublishedTest=null,activeTestTimer=null,activeTestDeadline=0;
+async function startPublishedTest(testId,index){try{const doc=await db.collection('tests').doc(testId).get();if(!doc.exists||!doc.data().published){toast('This test is not available.');return}activePublishedTest={id:doc.id,...doc.data(),index};renderPublishedTest()}catch(e){toast('Could not open test. Check Firestore rules.')}}
+function renderPublishedTest(){const t=activePublishedTest;if(!t)return;const host=document.getElementById('tests-'+t.index);const qs=t.questions||[];if(!qs.length){toast('This test has no questions.');return}activeTestDeadline=Date.now()+Math.max(1,Number(t.duration)||20)*60000;host.innerHTML='<div class="card" id="active-published-test"><div class="timer-box">Time remaining: <b id="published-test-timer"></b></div><h3>'+escapeHtml(t.title||'Chapter Test')+'</h3><form id="published-test-form">'+qs.map((q,i)=>'<div class="quiz-question"><p><b>'+(i+1)+'. '+escapeHtml(q.question||'')+'</b></p>'+q.options.map((o,j)=>'<label style="display:block"><input type="radio" name="published-q-'+i+'" value="'+j+'"> '+String.fromCharCode(65+j)+'. '+escapeHtml(o)+'</label>').join('')+'</div>').join('')+'</form><button class="btn" onclick="submitPublishedTest(false)">Submit Test</button></div>';if(activeTestTimer)clearInterval(activeTestTimer);activeTestTimer=setInterval(()=>{const left=Math.max(0,activeTestDeadline-Date.now()),el=document.getElementById('published-test-timer');if(el)el.textContent=Math.floor(left/60000)+':'+String(Math.floor(left%60000/1000)).padStart(2,'0');if(left<=0)submitPublishedTest(true)},500);}
+async function submitPublishedTest(auto){if(!activePublishedTest)return;clearInterval(activeTestTimer);const t=activePublishedTest,form=document.getElementById('published-test-form');if(!form)return;let score=0;const qs=t.questions||[];qs.forEach((q,i)=>{const a=form.querySelector('input[name="published-q-'+i+'"]:checked');if(a&&Number(a.value)===Number(q.answer))score++});try{await db.collection('users').doc(signedInUser.uid).collection('results').add({testId:t.id,testTitle:t.title||'Chapter Test',subject:t.subject,chapter:t.chapter,score,total:qs.length,createdAt:firebase.firestore.FieldValue.serverTimestamp(),autoSubmitted:!!auto});toast((auto?'Time is up. ':'')+'Result saved: '+score+'/'+qs.length);const idx=Number(t.index);activePublishedTest=null;await loadChapterAttempts(idx);const host=document.getElementById('tests-'+idx);host.innerHTML='<div class="card"><h3>Test submitted</h3><p>Your score: <b>'+score+'/'+qs.length+'</b></p><p>Your result has been saved in your chapter results.</p><button class="btn btn-secondary" onclick="loadChapterContent('+idx+',&quot;'+escapeHtml(t.chapter)+'&quot;)">Back to chapter tests</button></div>'}catch(e){console.error(e);toast('Test finished, but result could not be saved. Check Firestore rules.') ;activePublishedTest=null}}
+let adminQuestionCount=0;
+function addAdminQuestion(){const host=document.getElementById('admin-test-questions');const i=adminQuestionCount++;const box=document.createElement('div');box.className='card';box.style.margin='10px 0';box.innerHTML='<h4 style="font-size:13px">Question '+(i+1)+'</h4><div class="form-group"><label>Question</label><textarea class="field" rows="2" data-q="text" placeholder="Type MCQ question"></textarea></div>'+[0,1,2,3].map((n)=>'<div class="form-group"><label>Option '+String.fromCharCode(65+n)+'</label><input class="field" data-opt="'+n+'" placeholder="Option '+String.fromCharCode(65+n)+'"></div>').join('')+'<div class="form-group"><label>Correct option</label><select class="field" data-q="answer"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div><div class="form-group"><label>Explanation (optional)</label><textarea class="field" rows="2" data-q="explanation" placeholder="Explain the answer"></textarea></div>';host.appendChild(box)}
+async function adminPublishTest(){if(!requireAdmin())return;const subject=document.getElementById('admin-test-subject').value,chapter=document.getElementById('admin-test-chapter').value,title=document.getElementById('admin-test-title').value.trim(),duration=Number(document.getElementById('admin-test-duration').value)||20,boxes=[...document.querySelectorAll('#admin-test-questions>.card')];if(!chapter||!title||!boxes.length){toast('Choose subject and chapter, add a title and at least one MCQ.');return}const questions=[];for(const b of boxes){const question=b.querySelector('[data-q="text"]').value.trim(),options=[0,1,2,3].map(n=>b.querySelector('[data-opt="'+n+'"]').value.trim()),answer=Number(b.querySelector('[data-q="answer"]').value),explanation=b.querySelector('[data-q="explanation"]').value.trim();if(!question||options.some(x=>!x)){toast('Complete every question and all four options.');return}questions.push({question,options,answer,explanation})}try{await db.collection('tests').add({subject,chapter,title,duration,questions,published:true,createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:signedInUser.email});document.getElementById('admin-test-title').value='';document.getElementById('admin-test-questions').innerHTML='';adminQuestionCount=0;toast('MCQ test published successfully.');}catch(e){console.error(e);toast('Could not publish test. Check Firestore rules.')}}
+
+function toggleSubjectTab(which){
+ document.getElementById('subject-chapters').classList.toggle('hidden',which!=='chapters');
+ document.getElementById('subject-resources').classList.toggle('hidden',which!=='resources');
+ document.querySelectorAll('#page-subject-content .tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===which));
+}
+function resourceNotice(name){toast(name+' is a placeholder. Upload the actual file or video to enable it.')}
+function showLogoutModal(){document.getElementById('logout-modal').classList.add('show')}
+function closeModal(){document.getElementById('logout-modal').classList.remove('show')}
+async function confirmLogout(){closeModal();try{await auth.signOut()}catch(e){}signedInUser=null;document.getElementById('admin-nav-label').style.display='none';document.getElementById('admin-nav-item').style.display='none';document.getElementById('app-page').classList.add('hidden');document.getElementById('login-page').classList.remove('hidden');document.getElementById('login-password').value='';toast('You have logged out.')}
+function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),2600)}
+function toggleTheme(){document.body.classList.toggle('dark');if(document.body.classList.contains('dark')){document.documentElement.style.setProperty('--bg','#172326');document.documentElement.style.setProperty('--text','#edf4f4');document.documentElement.style.setProperty('--white','#202f32');document.querySelectorAll('.card,.subject-card,.resource-item,.chapter-item,.test-card,.doubt-card,.stat,.chat-panel,.sidebar,header,.dropdown,.modal,.login-box').forEach(el=>{el.style.background='#223337';el.style.color='#edf4f4';el.style.borderColor='#35494d'});toast('Dark theme preview enabled.')}else{location.reload()}}
+function saveProfile(){const name=document.getElementById('profile-name').value.trim();if(!name){toast('Please enter your name.');return}currentUser=name;toast('Profile saved in this browser preview.')}
+function changePassword(){const old=document.getElementById('old-pass').value,n=document.getElementById('new-pass').value,c=document.getElementById('confirm-pass').value;if(!old||!n||!c){toast('Please complete all password fields.');return}if(n!==c){toast('New passwords do not match.');return}toast('Password change needs a secure backend; no password was changed.')}
+function openIssueForm(){document.getElementById('issue-form').classList.toggle('hidden')}
+function submitIssue(){const title=document.getElementById('issue-title').value.trim(),details=document.getElementById('issue-details').value.trim();if(!title||!details){toast('Add an issue title and details.');return}document.getElementById('issues-list').innerHTML=`<div class="card"><b>${escapeHtml(title)}</b><p style="margin-top:7px">${escapeHtml(details)}</p><small style="color:var(--muted)">Status: Open (local preview)</small></div>`;document.getElementById('issue-form').classList.add('hidden');toast('Issue added to this preview.')}
+function openDoubtForm(){document.getElementById('doubt-form').classList.toggle('hidden')}
+function submitDoubt(){const subject=document.getElementById('doubt-subject').value,title=document.getElementById('doubt-title').value.trim(),question=document.getElementById('doubt-question').value.trim();if(!title||!question){toast('Please complete your question.');return}const card=document.createElement('div');card.className='doubt-card';card.innerHTML=`<div class="d-avatar">${escapeHtml(currentUser.charAt(0).toUpperCase())}</div><div><h4 style="font-size:13px">${escapeHtml(currentUser)} <span class="tag">New</span></h4><div class="d-tags"><span class="tag">Subject: ${escapeHtml(subject)}</span></div><strong style="font-size:12px">${escapeHtml(title)}</strong><div class="d-text">${escapeHtml(question)}</div></div>`;document.getElementById('doubt-list').prepend(card);document.getElementById('doubt-form').classList.add('hidden');document.getElementById('doubt-title').value='';document.getElementById('doubt-question').value='';toast('Question added to this local preview.')}
+document.getElementById('chat-form').addEventListener('submit',e=>{e.preventDefault();const input=document.getElementById('chat-text'),value=input.value.trim();if(!value)return;const msg=document.createElement('div');msg.className='msg mine';msg.innerHTML=`<div class="msg-author">${escapeHtml(currentUser)}</div><div class="msg-bubble">${escapeHtml(value)}<div class="msg-time">Just now</div></div>`;document.getElementById('chat-messages').appendChild(msg);input.value='';document.getElementById('chat-messages').scrollTop=99999});
+function requireAdmin(){if(!signedInUser||signedInUser.emailVerified!==true||(signedInUser.email||'').toLowerCase()!==ADMIN_EMAIL){toast('Admin access denied.');showPage('notice');return false}return true}
+async function adminPublishNotice(){if(!requireAdmin())return;const title=document.getElementById('admin-notice-title').value.trim(),body=document.getElementById('admin-notice-body').value.trim();if(!title||!body){toast('Enter notice title and details.');return}try{await db.collection('notices').add({title,body,createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:signedInUser.email});document.getElementById('admin-notice-title').value='';document.getElementById('admin-notice-body').value='';toast('Notice published.');loadAdminData();loadPublicNotices()}catch(e){toast('Could not publish. Check Firestore rules and database setup.')}}
+async function adminAddMaterial(){if(!requireAdmin())return;const subject=document.getElementById('admin-material-subject').value,chapter=document.getElementById('admin-material-chapter').value,title=document.getElementById('admin-material-title').value.trim(),url=document.getElementById('admin-material-url').value.trim();if(!chapter||!title){toast('Enter chapter and resource title.');return}if(url&&!/^https:\/\//i.test(url)){toast('Use a valid https:// link.');return}try{await db.collection('materials').add({subject,chapter,title,url,createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:signedInUser.email});document.getElementById('admin-material-chapter').value='';document.getElementById('admin-material-title').value='';document.getElementById('admin-material-url').value='';toast('Resource saved.');loadAdminData()}catch(e){toast('Could not save. Check Firestore rules and database setup.')}}
+async function loadAdminData(){
+ if(!requireAdmin())return;
+ const results=await Promise.allSettled([
+  db.collection('notices').orderBy('createdAt','desc').limit(20).get(),
+  db.collection('materials').orderBy('createdAt','desc').limit(30).get()
+ ]);
+ const hosts=['admin-notices-list','admin-materials-list'];
+ results.forEach((result,i)=>{
+  const host=document.getElementById(hosts[i]);
+  if(result.status==='rejected'){host.textContent=adminErrorText(result.reason);return}
+  const snap=result.value;host.className='';
+  if(i===0)host.innerHTML=snap.empty?'No notices yet.':snap.docs.map(d=>'<div class="topic-row"><div><b>'+escapeHtml(d.data().title||'')+'</b><br>'+escapeHtml(d.data().body||'')+'</div></div>').join('');
+  else host.innerHTML=snap.empty?'No resources yet.':snap.docs.map(d=>{const x=d.data();return '<div class="topic-row"><div><b>'+escapeHtml(x.subject||'')+' · '+escapeHtml(x.chapter||'')+'</b><br>'+escapeHtml(x.title||'')+(x.url?' · <a class="link" href="'+escapeHtml(x.url)+'" target="_blank" rel="noopener">Open resource</a>':'')+'</div></div>'}).join('');
+ });
+}
+async function loadPublicNotices(){try{const snap=await db.collection('notices').orderBy('createdAt','desc').limit(10).get();const host=document.querySelector('#page-notice .card .empty');if(host){host.className='';host.innerHTML=snap.empty?'<p>No announcements yet.</p>':snap.docs.map(d=>'<div class="topic-row"><div><b>'+escapeHtml(d.data().title||'')+'</b><br>'+escapeHtml(d.data().body||'')+'</div></div>').join('')}}catch(e){console.warn('Notices not available yet',e)}}
+const originalShowPage=showPage;
+showPage=function(name){if(name==='admin-dashboard'){if(!requireAdmin())return;refreshAdminChapterSelects();if(!document.querySelector('#admin-test-questions .card'))addAdminQuestion();loadAdminData()}originalShowPage(name)};
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function resetRCQuiz(){
+ const form=document.getElementById('rc-quiz');
+ if(form) form.reset();
+ const result=document.getElementById('rc-quiz-result');
+ if(result) result.innerHTML='';
+}
+const rcQuizForm=document.getElementById('rc-quiz');
+if(rcQuizForm){
+ rcQuizForm.addEventListener('submit',function(e){
+  e.preventDefault();
+  const answers={q1:'b',q2:'c',q3:'a',q4:'b',q5:'c'};
+  const explanations=[
+   'Capacitive reactance is Xc = 1/(ωC), where ω = 2πf.',
+   'The resistance and capacitive reactance are at right angles in the impedance triangle, so Z = √(R² + Xc²).',
+   'For an ideal capacitor, current leads the voltage across it by 90°.',
+   'Power factor = cos φ = R/Z for a series R-C circuit.',
+   'Since Xc = 1/(2πfC), increasing frequency decreases capacitive reactance.'
+  ];
+  let score=0, feedback='';
+  for(let i=1;i<=5;i++){
+   const selected=rcQuizForm.querySelector('input[name="q'+i+'"]:checked');
+   const correct=selected && selected.value===answers['q'+i];
+   if(correct) score++;
+   feedback+='<div class="quiz-feedback"><strong>Q'+i+': '+(correct?'Correct':'Incorrect')+'</strong> — '+explanations[i-1]+'</div>';
+  }
+  document.getElementById('rc-quiz-result').innerHTML='<h3>Your score: '+score+'/5 ('+(score*20)+'%)</h3>'+feedback;
+ });
+}
+
+// Reaction Kinetics timed test: 25 minutes, 4 marks, local review history.
+const rkQuestions=[
+ {id:1,q:'What is the unit of the rate of reaction in a gas phase reaction?',opts:['moles.dm⁻³.sec⁻¹','atm sec⁻¹','moles.dm³.sec','sec⁻¹'],ans:1,exp:'When the rate of a gas-phase reaction is expressed as change in pressure per unit time, atm s⁻¹ is used. If expressed as concentration change, mol dm⁻³ s⁻¹ is also a valid general rate unit; this question is interpreted using pressure units.'},
+ {id:2,q:'The decomposition of nitrogen penta-oxide (N₂O₅) is an example of which order of reaction?',opts:['Zero Order','First Order','Second Order','Third Order'],ans:1,exp:'The decomposition of N₂O₅ is commonly treated as a first-order reaction under the standard experimental conditions discussed in chemical kinetics.'},
+ {id:3,q:'Hydrolysis of tertiary butyl bromide is an example of:',opts:['First Order Reaction','Pseudo-first Order Reaction','Zero Order Reaction','Fractional Order Reaction'],ans:1,exp:'Water is present in large excess as the solvent, so its concentration is effectively constant. The observed kinetics are pseudo-first-order.'},
+ {id:4,q:'The reaction CHCl₃ + Cl₂ → CCl₄ + HCl has an order of:',opts:['1','2','1.5','0'],ans:2,exp:'For the usual photochemical chlorination rate expression, rate is proportional to [CHCl₃][Cl₂]¹ᐟ², giving an overall order of 1.5.'}
+];
+let rkOrder=[],rkDeadline=0,rkInterval=null,rkActive=false;
+function rkShuffle(a){let x=a.slice();for(let i=x.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
+function rkHistory(){try{return JSON.parse(localStorage.getItem('ijmatics_reaction_kinetics_history')||'[]')}catch(e){return []}}
+function rkSaveHistory(h){try{localStorage.setItem('ijmatics_reaction_kinetics_history',JSON.stringify(h))}catch(e){toast('Could not save test history in this browser.')}}
+function startReactionKinetics(){
+ rkOrder=rkShuffle(rkQuestions.map(q=>q.id));rkActive=true;rkDeadline=Date.now()+25*60*1000;
+ document.getElementById('rk-start-panel').classList.add('hidden');document.getElementById('rk-result-panel').classList.add('hidden');document.getElementById('rk-test-panel').classList.remove('hidden');
+ const holder=document.getElementById('rk-questions');holder.innerHTML='';
+ rkOrder.forEach((id,idx)=>{const q=rkQuestions.find(x=>x.id===id),opts=rkShuffle(q.opts.map((t,i)=>({t,correct:i===q.ans})));const box=document.createElement('div');box.className='rk-q';box.innerHTML='<p><strong>Q'+(idx+1)+'.</strong> '+escapeHtml(q.q)+'</p>'+opts.map((o,j)=>'<label class="rk-opt"><input type="radio" name="rkq'+id+'" value="'+(o.correct?'1':'0')+'"> <span>'+String.fromCharCode(65+j)+') '+escapeHtml(o.t)+'</span></label>').join('');holder.appendChild(box)});
+ rkTick();clearInterval(rkInterval);rkInterval=setInterval(rkTick,1000);
+}
+function rkTick(){let left=Math.max(0,rkDeadline-Date.now()),m=Math.floor(left/60000),sec=Math.floor((left%60000)/1000);document.getElementById('rk-timer').textContent=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');if(left<=0&&rkActive)submitReactionKinetics(true)}
+function submitReactionKinetics(auto){if(!rkActive)return;rkActive=false;clearInterval(rkInterval);let score=0,details=[];
+ rkOrder.forEach((id,idx)=>{const q=rkQuestions.find(x=>x.id===id),sel=document.querySelector('input[name="rkq'+id+'"]:checked'),correct=!!(sel&&sel.value==='1');if(correct)score++;const chosen=sel?sel.parentElement.innerText.trim().replace(/^([A-D])\)\s*/, ''):'Not answered';details.push({id,number:idx+1,q:q.q,chosen,correctAnswer:q.opts[q.ans],correct,explanation:q.exp})});
+ const attempt={date:new Date().toISOString(),score,total:4,details};let hist=rkHistory();hist.unshift(attempt);rkSaveHistory(hist.slice(0,30));
+ document.getElementById('rk-test-panel').classList.add('hidden');document.getElementById('rk-result-panel').classList.remove('hidden');
+ document.getElementById('rk-result-panel').innerHTML='<h3 style="font-size:18px;margin:8px 0">'+(auto?'Time is up! ':'Test submitted! ')+'Your marks: '+score+'/4 ('+(score*25)+'%)</h3><p style="font-size:12px;color:var(--muted)">Correct: '+score+' · Wrong or unanswered: '+(4-score)+'</p><div class="rk-actions"><button class="btn" onclick="rkShowReview(0,\'wrong\')">Review wrong questions</button><button class="btn btn-secondary" onclick="rkShowReview(0,\'correct\')">Review correct questions</button></div><div id="rk-review-output"></div><div class="rk-actions"><button class="btn" onclick="rkRetake()">Retake test (reshuffled)</button><button class="btn btn-secondary" onclick="rkShowHistory()">Attempt history</button></div>';
+ rkRenderHistory();
+}
+function rkShowReview(index,type){const h=rkHistory()[index];if(!h)return;const rows=h.details.filter(d=>type==='wrong'?!d.correct:d.correct);const out=document.getElementById('rk-review-output');if(!out)return;out.innerHTML='<h4 style="margin:15px 0 8px">'+(type==='wrong'?'Wrong / unanswered questions':'Correct questions')+'</h4>'+(rows.length?rows.map(d=>'<div class="rk-review '+(!d.correct?'wrong':'')+'"><b>Q'+d.number+'. '+escapeHtml(d.q)+'</b><br>Your answer: '+escapeHtml(d.chosen)+'<br>Correct answer: <b>'+escapeHtml(d.correctAnswer)+'</b><br>'+escapeHtml(d.explanation)+'</div>').join(''):'<p style="font-size:12px;color:var(--muted)">No questions in this category for this attempt.</p>')}
+function rkRetake(){document.getElementById('rk-start-panel').classList.remove('hidden');document.getElementById('rk-result-panel').classList.add('hidden');document.getElementById('rk-test-panel').classList.add('hidden');startReactionKinetics()}
+function rkRenderHistory(){const el=document.getElementById('rk-history-panel');if(!el)return;const h=rkHistory();el.innerHTML='<h4 style="font-size:13px;margin-bottom:8px">Previous attempts</h4>'+(h.length?h.map((a,i)=>'<div class="rk-review"><b>Attempt '+(i+1)+': '+a.score+'/4 ('+(a.score*25)+'%)</b><br><span style="color:var(--muted)">'+new Date(a.date).toLocaleString()+'</span><div class="rk-actions"><button class="btn btn-secondary" onclick="rkShowReview('+i+',\'wrong\')">Wrong questions</button><button class="btn btn-secondary" onclick="rkShowReview('+i+',\'correct\')">Correct questions</button></div></div>').join(''):'<p style="font-size:12px;color:var(--muted)">No attempts yet.</p>')}
+function rkShowHistory(){rkRenderHistory();document.getElementById('rk-history-panel').scrollIntoView({behavior:'smooth',block:'center'})}
+if(document.getElementById('reaction-kinetics-card'))rkRenderHistory();
+
+</script>
+<script>
+/* ===== Ijmatics Stage 1 additions: secure MCQ test system =====
+   Adds: hidden answers (testKeys), draft/publish, edit/delete/reorder, full-screen timed runner,
+   question navigation, auto-submit, score/percentage, review with explanations, release settings,
+   student profile documents. Existing functions are extended, not removed. */
+const s1={editingId:null,keyCache:{}};
+const s1Ts=()=>firebase.firestore.FieldValue.serverTimestamp();
+const s1Esc=s=>escapeHtml(s==null?'':s);
+
+/* ---------- student profile document (needed for student management in later stages) ---------- */
+async function s1EnsureProfile(){
+ try{const ref=db.collection('users').doc(signedInUser.uid);const d=await ref.get();
+  if(!d.exists)await ref.set({email:signedInUser.email,displayName:(signedInUser.email||'').split('@')[0],createdAt:s1Ts()});
+ }catch(e){console.warn('Profile not created',e)}
+}
+const s1OrigLogin=login;
+login=async function(){await s1OrigLogin();if(signedInUser)s1EnsureProfile()};
+
+/* ---------- helpers ---------- */
+async function s1FetchKey(testId){
+ if(s1.keyCache[testId])return s1.keyCache[testId];
+ try{const d=await db.collection('testKeys').doc(testId).get();if(d.exists){s1.keyCache[testId]=d.data();return d.data()}}catch(e){}
+ return null;
+}
+function s1Score(selected,answers){let s=0;(answers||[]).forEach((a,i)=>{if(Number(selected[i])===Number(a))s++});return s}
+function s1Pct(score,total){return total?Math.round(score/total*1000)/10:0}
+function s1Fmt(sec){sec=Math.max(0,sec);const m=Math.floor(sec/60),s=sec%60;return m+':'+String(s).padStart(2,'0')}
+
+/* ---------- student: full-screen test runner ---------- */
+let s1Runner=null,s1Timer=null;
+function s1Open(r){
+ s1Close(true);
+ r.phase='intro';r.current=0;r.selected=new Array(r.test.questions.length).fill(-1);r.submitting=false;
+ s1Runner=r;
+ const ov=document.createElement('div');ov.id='s1-overlay';ov.className='s1-overlay';document.body.appendChild(ov);
+ document.body.style.overflow='hidden';
+ s1Render();
+}
+function s1Close(silent){
+ clearInterval(s1Timer);s1Timer=null;
+ try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}
+ const ov=document.getElementById('s1-overlay');if(ov)ov.remove();
+ document.body.style.overflow='';
+ const r=s1Runner;s1Runner=null;
+ if(!silent&&r&&r.mode==='live'&&document.getElementById('materials-'+r.index)){loadChapterContent(r.index,r.test.chapter)}
+}
+function s1Head(){const t=s1Runner.test;return '<div class="s1-head"><b>Ijmatics</b><span class="s1-ttl">'+s1Esc(t.title||'Chapter Test')+(s1Runner.mode==='preview'?' · PREVIEW':'')+'</span>'+(s1Runner.phase==='run'?'<span class="s1-timer" id="s1-timer"></span>':'<button class="btn btn-secondary" style="padding:6px 12px" onclick="s1Close()">Close</button>')+'</div>'}
+function s1Render(){
+ const r=s1Runner,ov=document.getElementById('s1-overlay');if(!r||!ov)return;
+ const t=r.test,qs=t.questions||[];
+ if(r.phase==='intro'){
+  ov.innerHTML=s1Head()+'<div class="s1-body"><div class="s1-main"><div class="card"><span class="tag">'+s1Esc(t.subject||'')+' · '+s1Esc(t.chapter||'')+'</span><h2 style="margin:10px 0 8px">'+s1Esc(t.title||'Chapter Test')+'</h2><p class="subtitle" style="margin-top:0">'+qs.length+' MCQs · '+Number(t.duration||20)+' minutes · 1 mark each</p>'+(t.instructions?'<p style="font-size:13px;line-height:1.7;white-space:pre-wrap;margin-bottom:14px">'+s1Esc(t.instructions)+'</p>':'')+'<p style="font-size:12px;color:var(--muted);margin-bottom:14px">The timer starts when you press Start. The test is submitted automatically when time runs out. You can change answers before submitting.'+(r.mode==='live'?' You can attempt this test only once.':'')+'</p><button class="btn" onclick="s1Begin()">Start test</button> <button class="btn btn-secondary" onclick="s1Close()">Cancel</button></div></div></div>';
+  return;
+ }
+ if(r.phase==='run'){
+  const q=qs[r.current];
+  ov.innerHTML=s1Head()+'<div class="s1-body"><div class="s1-main"><div class="card"><small style="color:var(--muted)">Question '+(r.current+1)+' of '+qs.length+'</small><h3 style="margin:8px 0 12px;font-size:16px;line-height:1.5;white-space:pre-wrap">'+s1Esc(q.question)+'</h3>'+q.options.map((o,j)=>'<label class="s1-opt"><input type="radio" name="s1opt" '+(r.selected[r.current]===j?'checked ':'')+'onchange="s1Pick('+j+')">'+String.fromCharCode(65+j)+'. '+s1Esc(o)+'</label>').join('')+'<div class="s1-nav"><button class="btn btn-secondary" onclick="s1Go('+(r.current-1)+')" '+(r.current===0?'disabled':'')+'>Previous</button><button class="btn btn-secondary" onclick="s1Pick(-1)">Clear answer</button><button class="btn btn-secondary" onclick="s1Go('+(r.current+1)+')" '+(r.current===qs.length-1?'disabled':'')+'>Next</button><button class="btn" style="margin-left:auto" onclick="s1Submit(false)">Submit test</button></div></div></div><div class="s1-side"><div class="card"><strong style="font-size:13px">Questions</strong><div class="s1-pal" style="margin-top:10px">'+qs.map((_,i)=>'<button class="'+(i===r.current?'cur':(r.selected[i]>=0?'done':''))+'" onclick="s1Go('+i+')">'+(i+1)+'</button>').join('')+'</div><small style="display:block;margin-top:10px;color:var(--muted)">Answered: '+r.selected.filter(x=>x>=0).length+' / '+qs.length+'</small></div></div></div>';
+  s1Tick();return;
+ }
+ if(r.phase==='review')s1RenderReview();
+}
+function s1Begin(){
+ const r=s1Runner;if(!r)return;
+ r.phase='run';r.deadline=Date.now()+Math.max(1,Number(r.test.duration)||20)*60000;
+ try{const ov=document.getElementById('s1-overlay');if(ov&&ov.requestFullscreen)ov.requestFullscreen().catch(()=>{})}catch(e){}
+ s1Render();
+ clearInterval(s1Timer);s1Timer=setInterval(s1Tick,500);
+}
+function s1Tick(){
+ const r=s1Runner;if(!r||r.phase!=='run')return;
+ const left=Math.ceil((r.deadline-Date.now())/1000),el=document.getElementById('s1-timer');
+ if(el){el.textContent=s1Fmt(left);el.classList.toggle('low',left<=60)}
+ if(left<=0){toast('Time is up. Submitting your test…');s1Submit(true)}
+}
+function s1Pick(j){const r=s1Runner;if(!r||r.phase!=='run')return;r.selected[r.current]=j;s1Render()}
+function s1Go(i){const r=s1Runner;if(!r||r.phase!=='run'||i<0||i>=r.test.questions.length)return;r.current=i;s1Render()}
+async function s1Submit(auto){
+ const r=s1Runner;if(!r||r.phase!=='run'||r.submitting)return;
+ if(!auto){const un=r.selected.filter(x=>x<0).length;if(!confirm(un?('You have '+un+' unanswered question(s). Submit anyway?'):'Submit your test now?'))return}
+ r.submitting=true;clearInterval(s1Timer);
+ const t=r.test;
+ if(r.mode==='preview'){r.phase='review';r.key=r.previewKey;s1Render();return}
+ try{
+  await db.collection('users').doc(signedInUser.uid).collection('results').doc(t.id).set({testId:t.id,testTitle:t.title||'Chapter Test',subject:t.subject,chapter:t.chapter,total:t.questions.length,selected:r.selected,autoSubmitted:!!auto,createdAt:s1Ts()});
+  r.phase='review';r.key=await s1FetchKey(t.id);s1Render();
+ }catch(e){
+  console.error(e);r.submitting=false;toast('Could not save your result. Check your connection and try again.');
+  r.phase='run';r.deadline=Math.max(r.deadline,Date.now()+60000);s1Timer=setInterval(s1Tick,500);s1Render();
+ }
+}
+function s1RenderReview(){
+ const r=s1Runner,ov=document.getElementById('s1-overlay');if(!r||!ov)return;
+ const t=r.test,qs=t.questions,key=r.key,n=qs.length;
+ let top;
+ if(key){const sc=s1Score(r.selected,key.answers);top='<div class="s1-score">'+sc+' / '+n+'</div><p style="font-size:14px;margin-top:4px">Percentage: <b>'+s1Pct(sc,n)+'%</b> · Correct: '+sc+' · Incorrect: '+r.selected.filter((x,i)=>x>=0&&x!==Number(key.answers[i])).length+' · Unanswered: '+r.selected.filter(x=>x<0).length+'</p>'}
+ else top='<h3>Test submitted</h3><p style="font-size:13px;margin-top:6px">Your answers have been saved. Marks and correct answers will appear here once your teacher releases them.</p>';
+ ov.innerHTML=s1Head()+'<div class="s1-body"><div class="s1-main"><div class="card"><span class="tag">'+s1Esc(t.subject||'')+' · '+s1Esc(t.chapter||'')+'</span><h2 style="margin:10px 0">'+s1Esc(t.title||'')+'</h2>'+top+(r.mode==='preview'?'<p class="subtitle" style="margin-top:8px">Preview only — nothing was saved.</p>':'')+'<button class="btn" style="margin-top:14px" onclick="s1Close()">Close</button></div>'+(key?'<div class="card">'+qs.map((q,i)=>{const sel=r.selected[i],ans=Number(key.answers[i]),st=sel<0?'<span class="na">Unanswered</span>':(sel===ans?'<span class="ok">Correct</span>':'<span class="bad">Incorrect</span>');return '<div class="s1-rev"><b>'+(i+1)+'. '+s1Esc(q.question)+'</b> '+st+q.options.map((o,j)=>'<div class="opt '+(j===ans?'right':(j===sel?'wrong':''))+'">'+String.fromCharCode(65+j)+'. '+s1Esc(o)+(j===ans?' ✓':'')+(j===sel&&j!==ans?' (your answer)':'')+(j===sel&&j===ans?' (your answer)':'')+'</div>').join('')+((key.explanations||[])[i]?'<p style="font-size:12px;color:var(--muted);margin-top:6px"><b>Explanation:</b> '+s1Esc(key.explanations[i])+'</p>':'')+'</div>'}).join('')+'</div>':'')+'</div></div>';
+}
+
+/* ---------- student: chapter loader with hidden-answer tests, results and review ---------- */
+async function s1LoadResults(){
+ const snap=await db.collection('users').doc(signedInUser.uid).collection('results').get();
+ return snap.docs.map(d=>({id:d.id,...d.data()}));
+}
+startPublishedTest=async function(testId,index){
+ try{
+  const prev=await db.collection('users').doc(signedInUser.uid).collection('results').doc(testId).get();
+  if(prev.exists){toast('You have already submitted this test.');return}
+  const doc=await db.collection('tests').doc(testId).get();
+  if(!doc.exists||doc.data().published!==true){toast('This test is not available.');return}
+  const t={id:doc.id,...doc.data()};
+  if(!(t.questions||[]).length){toast('This test has no questions.');return}
+  s1Open({mode:'live',test:t,index});
+ }catch(e){console.error(e);toast('Could not open test. Check Firestore rules.')}
+};
+async function s1ReviewResult(testId,index){
+ try{
+  const [rs,ts]=await Promise.all([db.collection('users').doc(signedInUser.uid).collection('results').doc(testId).get(),db.collection('tests').doc(testId).get()]);
+  if(!rs.exists||!ts.exists){toast('Result details are not available.');return}
+  const t={id:ts.id,...ts.data()},res=rs.data();
+  s1Open({mode:'live',test:t,index});
+  const r=s1Runner;r.selected=res.selected||[];r.key=await s1FetchKey(testId);r.phase='review';s1Render();
+ }catch(e){console.error(e);toast('Could not load this result.')}
+}
+loadChapterAttempts=async function(index){
+ const host=document.getElementById('attempts-'+index);if(!host||!signedInUser)return;
+ try{
+  const chapter=subjectData[currentSubject][index][0];
+  const rows=(await s1LoadResults()).filter(x=>x.subject===currentSubject&&x.chapter===chapter).sort((a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0));
+  if(!rows.length){host.innerHTML='<small>Your chapter test results will appear here.</small>';return}
+  const out=await Promise.all(rows.map(async x=>{
+   let label,review='';
+   if(typeof x.score==='number'){label=Number(x.score)+'/'+Number(x.total||0)+' ('+s1Pct(x.score,x.total)+'%)'}
+   else{const key=await s1FetchKey(x.testId);if(key){const sc=s1Score(x.selected||[],key.answers);label=sc+'/'+x.total+' ('+s1Pct(sc,x.total)+'%)'}else label='Submitted · marks not released yet';review='<button class="btn btn-secondary" onclick="s1ReviewResult(&quot;'+s1Esc(x.testId)+'&quot;,'+index+')">Review</button>'}
+   const d=x.createdAt&&x.createdAt.toDate?x.createdAt.toDate().toLocaleDateString():'';
+   return '<div class="s1-row"><div><b>'+s1Esc(x.testTitle||'Chapter test')+'</b><br><small>'+s1Esc(label)+(d?' · '+d:'')+'</small></div><div class="acts">'+review+'</div></div>';
+  }));
+  host.innerHTML='<h4 style="font-size:13px">Your results</h4>'+out.join('');
+ }catch(e){console.warn(e)}
+};
+loadChapterContent=async function(index,chapter){
+ const mats=document.getElementById('materials-'+index),tests=document.getElementById('tests-'+index);
+ mats.innerHTML='<small>Loading resources…</small>';tests.innerHTML='<small>Loading tests…</small>';
+ try{
+  const ms=await db.collection('materials').where('subject','==',currentSubject).get();
+  const docs=ms.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.chapter||'').trim()===String(chapter).trim());
+  mats.innerHTML=docs.length?docs.map(x=>'<div class="resource-item"><i class="fa-solid fa-circle-play res-icon-vid"></i><div style="flex:1"><strong>'+escapeHtml(x.title||'Learning resource')+'</strong><small>'+escapeHtml(x.type||'Lecture / Study material')+'</small>'+(x.url?'<a class="link" href="'+escapeHtml(x.url)+'" target="_blank" rel="noopener">Open lecture / resource</a>':'<small>Resource link not provided</small>')+'</div></div>').join(''):'<p class="empty">No lectures or study materials published for this chapter yet.</p>';
+  const ts=await db.collection('tests').where('subject','==',currentSubject).where('published','==',true).get();
+  const done=new Set((await s1LoadResults()).map(x=>x.testId));
+  const testDocs=ts.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.chapter||'').trim()===String(chapter).trim());
+  tests.innerHTML=testDocs.length?testDocs.map(t=>'<div class="card"><b>'+escapeHtml(t.title||'Chapter test')+'</b><p class="subtitle">'+((t.questions||[]).length)+' MCQs · '+Number(t.duration||20)+' minutes</p>'+(done.has(t.id)?'<button class="btn btn-secondary" onclick="s1ReviewResult(&quot;'+t.id+'&quot;,'+index+')">Attempted · View result</button>':'<button class="btn" onclick="startPublishedTest(&quot;'+t.id+'&quot;,'+index+')">Start Test</button>')+'</div>').join(''):'<p class="empty">No tests published for this chapter yet.</p>';
+  await loadChapterAttempts(index);
+ }catch(e){console.error(e);mats.innerHTML='<p class="empty">Could not load chapter content. Check Firestore read rules.</p>';tests.innerHTML='<p class="empty">Could not load tests.</p>'}
+};
+
+/* ---------- admin: question editor with reorder/delete ---------- */
+function s1Renumber(){document.querySelectorAll('#admin-test-questions>.card').forEach((c,i)=>{const h=c.querySelector('h4');if(h)h.textContent='Question '+(i+1)})}
+addAdminQuestion=function(data){
+ const host=document.getElementById('admin-test-questions');
+ const box=document.createElement('div');box.className='card s1-q-admin';box.style.margin='10px 0';
+ box.innerHTML='<h4 style="font-size:13px"></h4><div class="s1-q-tools"><button type="button" class="btn btn-secondary" data-mv="up">↑ Up</button><button type="button" class="btn btn-secondary" data-mv="down">↓ Down</button><button type="button" class="btn btn-secondary" data-mv="del">Delete</button></div><div class="form-group"><label>Question</label><textarea class="field" rows="2" data-q="text" placeholder="Type MCQ question"></textarea></div>'+[0,1,2,3].map(n=>'<div class="form-group"><label>Option '+String.fromCharCode(65+n)+'</label><input class="field" data-opt="'+n+'" placeholder="Option '+String.fromCharCode(65+n)+'"></div>').join('')+'<div class="form-group"><label>Correct option</label><select class="field" data-q="answer"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div><div class="form-group"><label>Explanation (optional)</label><textarea class="field" rows="2" data-q="explanation" placeholder="Explain the answer"></textarea></div>';
+ box.querySelector('[data-mv="up"]').onclick=()=>{if(box.previousElementSibling){host.insertBefore(box,box.previousElementSibling);s1Renumber()}};
+ box.querySelector('[data-mv="down"]').onclick=()=>{if(box.nextElementSibling){host.insertBefore(box.nextElementSibling,box);s1Renumber()}};
+ box.querySelector('[data-mv="del"]').onclick=()=>{if(confirm('Delete this question?')){box.remove();s1Renumber()}};
+ if(data&&typeof data==='object'&&data.question!==undefined){
+  box.querySelector('[data-q="text"]').value=data.question||'';
+  (data.options||[]).forEach((o,n)=>{const el=box.querySelector('[data-opt="'+n+'"]');if(el)el.value=o});
+  box.querySelector('[data-q="answer"]').value=String(data.answer>=0?data.answer:0);
+  box.querySelector('[data-q="explanation"]').value=data.explanation||'';
+ }
+ host.appendChild(box);s1Renumber();
+};
+function s1Collect(publish){
+ const subject=document.getElementById('admin-test-subject').value,chapter=document.getElementById('admin-test-chapter').value,title=document.getElementById('admin-test-title').value.trim(),duration=Math.min(180,Math.max(1,Number(document.getElementById('admin-test-duration').value)||20)),instructions=document.getElementById('admin-test-instructions').value.trim(),release=document.getElementById('admin-test-release').value;
+ if(!chapter||!title){toast('Choose subject and chapter and enter a title.');return null}
+ const boxes=[...document.querySelectorAll('#admin-test-questions>.card')];
+ if(publish&&!boxes.length){toast('Add at least one MCQ before publishing.');return null}
+ const questions=[],answers=[],explanations=[];
+ for(const b of boxes){
+  const question=b.querySelector('[data-q="text"]').value.trim(),options=[0,1,2,3].map(n=>b.querySelector('[data-opt="'+n+'"]').value.trim());
+  if(!question||options.some(x=>!x)){toast('Complete every question and all four options.');return null}
+  questions.push({question,options});answers.push(Number(b.querySelector('[data-q="answer"]').value));explanations.push(b.querySelector('[data-q="explanation"]').value.trim());
+ }
+ return {subject,chapter,title,duration,instructions,release,questions,answers,explanations};
+}
+async function s1SaveTest(publish){
+ if(!requireAdmin())return;
+ const f=s1Collect(publish);if(!f)return;
+ if(s1.editingId&&publish&&!confirm('Save changes to this test? If students already attempted it, changing questions can make their saved answers inconsistent.'))return;
+ try{
+  const ref=s1.editingId?db.collection('tests').doc(s1.editingId):db.collection('tests').doc();
+  const data={subject:f.subject,chapter:f.chapter,title:f.title,instructions:f.instructions,duration:f.duration,release:f.release,questions:f.questions,published:!!publish,secured:true,updatedAt:s1Ts()};
+  const batch=db.batch();
+  if(s1.editingId)batch.update(ref,data);else{data.createdAt=s1Ts();data.createdBy=signedInUser.email;data.answersReleased=false;batch.set(ref,data)}
+  batch.set(db.collection('testKeys').doc(ref.id),{answers:f.answers,explanations:f.explanations,updatedAt:s1Ts()});
+  await batch.commit();
+  delete s1.keyCache[ref.id];
+  toast(publish?'MCQ test published.':'Draft saved.');
+  s1ResetForm();s1LoadAdminTests();
+ }catch(e){console.error(e);toast('Could not save test. Check Firestore rules.')}
+}
+adminPublishTest=function(){return s1SaveTest(true)};
+function s1ResetForm(){
+ s1.editingId=null;
+ document.getElementById('admin-test-title').value='';document.getElementById('admin-test-instructions').value='';document.getElementById('admin-test-duration').value='20';document.getElementById('admin-test-release').value='immediate';
+ document.getElementById('admin-test-questions').innerHTML='';adminQuestionCount=0;addAdminQuestion();
+ const l=document.getElementById('s1-edit-label');if(l)l.textContent='';
+}
+async function s1PreviewTest(){
+ const f=s1Collect(true);if(!f)return;
+ s1Open({mode:'preview',test:{id:'preview',subject:f.subject,chapter:f.chapter,title:f.title,instructions:f.instructions,duration:f.duration,questions:f.questions},previewKey:{answers:f.answers,explanations:f.explanations},index:0});
+}
+
+/* ---------- admin: test manager (list, edit, publish/unpublish, release, delete, secure old tests) ---------- */
+async function s1LoadAdminTests(){
+ const host=document.getElementById('admin-tests-list');if(!host||!signedInUser)return;
+ try{
+  const snap=await db.collection('tests').orderBy('createdAt','desc').limit(100).get();
+  s1.tests={};
+  host.className='';
+  host.innerHTML=snap.empty?'No tests yet.':snap.docs.map(d=>{const t=d.data();s1.tests[d.id]=t;const legacy=!t.secured&&(t.questions||[]).some(q=>q&&q.answer!==undefined);
+   return '<div class="s1-row"><div><b>'+s1Esc(t.title||'Untitled')+'</b> <span class="s1-pill '+(t.published?'':'draft')+'">'+(t.published?'Published':'Draft')+'</span>'+(legacy?' <span class="s1-pill draft">Answers exposed – secure it</span>':'')+'<br><small>'+s1Esc(t.subject||'')+' · '+s1Esc(t.chapter||'')+' · '+(t.questions||[]).length+' MCQs · '+Number(t.duration||20)+' min · answers: '+(t.release==='manual'?(t.answersReleased?'released':'held until released'):'after submission')+'</small></div><div class="acts"><button class="btn btn-secondary" onclick="s1EditTest(&quot;'+d.id+'&quot;)">Edit</button><button class="btn btn-secondary" onclick="s1TogglePublish(&quot;'+d.id+'&quot;,'+(!t.published)+')">'+(t.published?'Unpublish':'Publish')+'</button>'+(t.release==='manual'&&!t.answersReleased?'<button class="btn btn-secondary" onclick="s1ReleaseAnswers(&quot;'+d.id+'&quot;)">Release answers</button>':'')+'<button class="btn btn-secondary" onclick="s1DeleteTest(&quot;'+d.id+'&quot;)">Delete</button></div></div>'}).join('');
+ }catch(e){console.error(e);host.textContent=adminErrorText(e)}
+}
+async function s1EditTest(id){
+ if(!requireAdmin())return;
+ try{
+  const [td,kd]=await Promise.all([db.collection('tests').doc(id).get(),db.collection('testKeys').doc(id).get()]);
+  if(!td.exists){toast('Test not found.');return}
+  const t=td.data(),k=kd.exists?kd.data():{answers:[],explanations:[]};
+  s1.editingId=id;
+  document.getElementById('admin-test-subject').value=t.subject;populateChapterSelect('admin-test-subject','admin-test-chapter');document.getElementById('admin-test-chapter').value=t.chapter;
+  document.getElementById('admin-test-title').value=t.title||'';document.getElementById('admin-test-instructions').value=t.instructions||'';document.getElementById('admin-test-duration').value=t.duration||20;document.getElementById('admin-test-release').value=t.release||'immediate';
+  document.getElementById('admin-test-questions').innerHTML='';adminQuestionCount=0;
+  (t.questions||[]).forEach((q,i)=>addAdminQuestion({question:q.question,options:q.options,answer:q.answer!==undefined?q.answer:(k.answers||[])[i],explanation:q.explanation!==undefined?q.explanation:(k.explanations||[])[i]}));
+  if(!(t.questions||[]).length)addAdminQuestion();
+  const l=document.getElementById('s1-edit-label');if(l)l.textContent='Editing: '+(t.title||'')+' — Publish saves changes; Save draft unpublishes it.';
+  document.getElementById('admin-test-title').scrollIntoView({behavior:'smooth',block:'center'});
+ }catch(e){console.error(e);toast('Could not load test for editing.')}
+}
+async function s1TogglePublish(id,publish){
+ if(!requireAdmin())return;
+ try{await db.collection('tests').doc(id).update({published:!!publish,updatedAt:s1Ts()});toast(publish?'Test published.':'Test moved to drafts.');s1LoadAdminTests()}catch(e){toast('Could not update test.')}
+}
+async function s1ReleaseAnswers(id){
+ if(!requireAdmin())return;
+ try{await db.collection('tests').doc(id).update({answersReleased:true,updatedAt:s1Ts()});toast('Answers released to students who submitted.');s1LoadAdminTests()}catch(e){toast('Could not release answers.')}
+}
+async function s1DeleteTest(id){
+ if(!requireAdmin())return;
+ if(!confirm('Delete this test and its answer key? Student result records are kept but their review will no longer be available.'))return;
+ try{const b=db.batch();b.delete(db.collection('tests').doc(id));b.delete(db.collection('testKeys').doc(id));await b.commit();if(s1.editingId===id)s1ResetForm();toast('Test deleted.');s1LoadAdminTests()}catch(e){toast('Could not delete test.')}
+}
+async function s1SecureOldTests(){
+ if(!requireAdmin())return;
+ try{
+  const snap=await db.collection('tests').get();let n=0;
+  for(const d of snap.docs){
+   const t=d.data();if(t.secured||!(t.questions||[]).some(q=>q&&q.answer!==undefined))continue;
+   const answers=t.questions.map(q=>Number(q.answer)||0),explanations=t.questions.map(q=>q.explanation||'');
+   const questions=t.questions.map(q=>({question:q.question,options:q.options}));
+   const b=db.batch();b.set(db.collection('testKeys').doc(d.id),{answers,explanations,updatedAt:s1Ts()});b.update(d.ref,{questions,secured:true,release:t.release||'immediate',answersReleased:false,updatedAt:s1Ts()});await b.commit();n++;
+  }
+  toast(n?('Secured '+n+' existing test(s).'):'No exposed tests found.');s1LoadAdminTests();
+ }catch(e){console.error(e);toast('Could not secure tests. Publish the updated Firestore rules first.')}
+}
+
+/* ---------- hook into existing admin dashboard loading ---------- */
+const s1OrigLoadAdminData=loadAdminData;
+loadAdminData=async function(){await s1OrigLoadAdminData();s1LoadAdminTests()};
+</script>
+<script>
+/* ===== Ijmatics Stage 2 additions: resources, curriculum, students, analytics, community, challenges, admin panel ===== */
+const s2={profile:{},profP:null,custom:{subs:[],chs:[]},cache:null};
+const s2IsAdmin=()=>!!signedInUser&&signedInUser.emailVerified===true&&(signedInUser.email||'').toLowerCase()===ADMIN_EMAIL;
+const s2D=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const s2Today=()=>s2D(new Date());
+function s2Week(ds){const d=new Date(ds+'T00:00:00');d.setDate(d.getDate()-((d.getDay()+6)%7));return s2D(d)}
+function s2Date(ts){return ts&&ts.toDate?ts.toDate().toLocaleDateString():''}
+const s2Sec=(a,b)=>((a&&a.seconds)||0)-((b&&b.seconds)||0);
+
+/* ---------- charts ---------- */
+function s2Line(vals){
+ if(!vals.length)return '';const w=320,h=120,p=18,st=vals.length>1?(w-2*p)/(vals.length-1):0;
+ const pts=vals.map((v,i)=>[p+i*st,h-p-(h-2*p)*v/100]);
+ return '<svg viewBox="0 0 '+w+' '+h+'" style="width:100%;max-width:440px"><line x1="'+p+'" y1="'+(h-p)+'" x2="'+(w-p)+'" y2="'+(h-p)+'" stroke="#e2e8f0"/><polyline fill="none" stroke="#007b83" stroke-width="2.5" points="'+pts.map(q=>q.join(',')).join(' ')+'"/>'+pts.map((q,i)=>'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="3.5" fill="#007b83"><title>'+vals[i]+'%</title></circle>').join('')+'</svg>';
+}
+function s2Bar(label,pct,sub){return '<div style="margin:9px 0"><div style="display:flex;justify-content:space-between;font-size:12px"><span>'+s1Esc(label)+'</span><b>'+pct+'%</b></div><div style="background:#e8eef0;border-radius:6px;height:8px"><div style="width:'+Math.min(100,pct)+'%;background:'+(pct>=75?'var(--green)':pct>=50?'var(--teal)':'var(--red)')+';height:8px;border-radius:6px"></div></div>'+(sub?'<small style="color:var(--muted)">'+s1Esc(sub)+'</small>':'')+'</div>'}
+function s2Agg(rows,keyFn){const m={};rows.filter(r=>r.score!=null&&r.total).forEach(r=>{const k=keyFn(r);(m[k]=m[k]||{score:0,total:0,n:0});m[k].score+=r.score;m[k].total+=r.total;m[k].n++});return Object.entries(m).map(([k,v])=>({name:k,...v,pct:s1Pct(v.score,v.total)})).sort((a,b)=>b.pct-a.pct)}
+
+/* ---------- curriculum: custom subjects & chapters stored in Firestore ---------- */
+function s2RefreshSubjectSelects(){
+ document.querySelectorAll('select.s2-subj').forEach(el=>{const v=el.value,all=el.dataset.all==='1';el.innerHTML=(all?'<option value="">All subjects</option>':'')+Object.keys(subjectData).map(n=>'<option>'+s1Esc(n)+'</option>').join('');if(v&&(subjectData[v]||(all&&v===''))) el.value=v});
+ ['admin-material-subject','admin-test-subject'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const v=el.value;el.innerHTML=Object.keys(subjectData).map(n=>'<option>'+s1Esc(n)+'</option>').join('');if(v&&subjectData[v])el.value=v});
+}
+async function s2LoadCurriculum(){
+ try{
+  const [ss,cs]=await Promise.all([db.collection('subjects').get(),db.collection('chapters').get()]);
+  const subs=ss.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>s2Sec(a.createdAt,b.createdAt));
+  const chs=cs.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>s2Sec(a.createdAt,b.createdAt));
+  document.querySelectorAll('#page-subjects [data-custom]').forEach(e=>e.remove());
+  subs.forEach(s=>{
+   if(!subjectData[s.name])subjectData[s.name]=[];
+   const card=document.createElement('div');card.className='subject-card s-reason';card.dataset.custom='1';card.onclick=()=>openSubject(s.name);
+   card.innerHTML='<i class="fa-solid fa-book sub-icon"></i><strong>'+s1Esc(s.name)+'</strong><i class="fa-solid fa-chevron-right chev"></i>';
+   document.getElementById('page-subjects').appendChild(card);
+  });
+  chs.forEach(c=>{if(subjectData[c.subject]&&!subjectData[c.subject].some(x=>x[0]===c.name))subjectData[c.subject].push([c.name,0])});
+  s2.custom={subs,chs};
+ }catch(e){console.warn('Curriculum',e)}
+ s2RefreshSubjectSelects();
+}
+
+/* ---------- profile (safe public name), roles, suspension ---------- */
+s1EnsureProfile=function(){return s2.profP=s2EnsureProfile()};
+async function s2EnsureProfile(){
+ try{
+  const ref=db.collection('users').doc(signedInUser.uid),d=await ref.get(),pub='Student '+signedInUser.uid.slice(0,4).toUpperCase();
+  if(!d.exists){await ref.set({email:signedInUser.email,displayName:(signedInUser.email||'').split('@')[0],publicName:pub,createdAt:s1Ts()});s2.profile={publicName:pub,role:'student'}}
+  else{s2.profile=d.data();if(!s2.profile.publicName){await ref.update({publicName:pub});s2.profile.publicName=pub}}
+ }catch(e){console.warn('Profile',e);s2.profile=s2.profile||{}}
+}
+const s2OrigLogin=login;
+login=async function(){await s2OrigLogin();if(signedInUser)s2AfterLogin()};
+async function s2AfterLogin(){
+ try{await s2.profP}catch(e){}
+ if(s2.profile&&s2.profile.status==='suspended'){toast('Your account has been suspended. Please contact the administrator.');try{await auth.signOut()}catch(e){}signedInUser=null;document.getElementById('app-page').classList.add('hidden');document.getElementById('login-page').classList.remove('hidden');return}
+ const t=document.getElementById('teacher-nav-item'),tl=document.getElementById('teacher-nav-label'),isT=s2.profile&&s2.profile.role==='teacher';
+ if(t)t.style.display=isT?'flex':'none';if(tl)tl.style.display=isT?'block':'none';
+ const pn=document.getElementById('s2-public-name');if(pn)pn.value=(s2.profile&&s2.profile.publicName)||'';
+ s2LoadCurriculum();
+}
+async function s2SavePublicName(){
+ const v=document.getElementById('s2-public-name').value.trim();
+ if(!/^[A-Za-z0-9 _.\-]{3,24}$/.test(v)||v.includes('@')){toast('Use 3–24 letters, numbers, spaces or . _ - (no email).');return}
+ try{await db.collection('users').doc(signedInUser.uid).update({publicName:v});s2.profile.publicName=v;toast('Public display name saved.')}catch(e){toast('Could not save name.')}
+}
+
+/* ---------- resource library (admin + teacher) ---------- */
+const S2_TYPES=['Lecture','Study material','Notes','PDF','Worksheet','Past paper'];
+const S2_GROUPS=[['Lectures & Study Materials',['Lecture','Study material','']],['Notes & PDFs',['Notes','PDF']],['Worksheets',['Worksheet']],['Past Papers',['Past paper']]];
+const s2CanManage=()=>s2IsAdmin()||(s2.profile&&s2.profile.role==='teacher');
+function s2RenderResources(hostId,p){
+ const host=document.getElementById(hostId);if(!host)return;
+ host.innerHTML='<div class="card"><h3 style="font-size:15px;margin-bottom:12px">Add / edit resource</h3><small id="s2r-'+p+'-edit" style="display:block;color:var(--teal-dark);font-weight:600;margin-bottom:8px"></small>'+
+ '<div class="form-group"><label>Type</label><select id="s2r-'+p+'-type" class="field">'+S2_TYPES.map(t=>'<option>'+t+'</option>').join('')+'</select></div>'+
+ '<div class="form-group"><label>Subject</label><select id="s2r-'+p+'-subject" class="field s2-subj" onchange="populateChapterSelect(\'s2r-'+p+'-subject\',\'s2r-'+p+'-chapter\')"></select></div>'+
+ '<div class="form-group"><label>Chapter</label><select id="s2r-'+p+'-chapter" class="field"></select></div>'+
+ '<div class="form-group"><label>Title</label><input id="s2r-'+p+'-title" class="field"></div>'+
+ '<div class="form-group"><label>Description (optional)</label><textarea id="s2r-'+p+'-desc" class="field" rows="2"></textarea></div>'+
+ '<div class="form-group"><label>Link to the file (https://…, e.g. Google Drive / PDF link)</label><input id="s2r-'+p+'-url" class="field" type="url" placeholder="https://..."></div>'+
+ '<button class="btn" onclick="s2SaveResource(\''+p+'\')">Save resource</button> <button class="btn btn-secondary" onclick="s2ResetResource(\''+p+'\')">Clear</button></div>'+
+ '<div class="card"><h3 style="font-size:15px;margin-bottom:10px">Saved resources</h3><div class="form-group"><select id="s2r-'+p+'-filter" class="field" onchange="s2LoadResourceList(\''+p+'\')"><option value="">All types</option>'+S2_TYPES.map(t=>'<option>'+t+'</option>').join('')+'</select></div><div id="s2r-'+p+'-list">Loading…</div></div>';
+ s2RefreshSubjectSelects();populateChapterSelect('s2r-'+p+'-subject','s2r-'+p+'-chapter');s2.resEdit=null;s2LoadResourceList(p);
+}
+function s2ResetResource(p){s2.resEdit=null;['title','desc','url'].forEach(k=>document.getElementById('s2r-'+p+'-'+k).value='');document.getElementById('s2r-'+p+'-edit').textContent=''}
+async function s2SaveResource(p){
+ if(!s2CanManage()){toast('Not authorised.');return}
+ const g=k=>document.getElementById('s2r-'+p+'-'+k).value.trim(),type=g('type'),subject=g('subject'),chapter=g('chapter'),title=g('title'),description=g('desc'),url=g('url');
+ if(!chapter||!title){toast('Choose subject and chapter and enter a title.');return}
+ if(url&&!/^https:\/\//i.test(url)){toast('Use a valid https:// link.');return}
+ try{
+  const data={type,subject,chapter,title,description,url};
+  if(s2.resEdit){data.updatedAt=s1Ts();await db.collection('materials').doc(s2.resEdit).update(data)}
+  else{data.createdAt=s1Ts();data.createdBy=signedInUser.email;await db.collection('materials').add(data)}
+  toast('Resource saved.');s2ResetResource(p);s2LoadResourceList(p);
+ }catch(e){console.error(e);toast('Could not save. Check Firestore rules.')}
+}
+async function s2LoadResourceList(p){
+ const host=document.getElementById('s2r-'+p+'-list');if(!host)return;
+ try{
+  const f=document.getElementById('s2r-'+p+'-filter').value;
+  const snap=await db.collection('materials').orderBy('createdAt','desc').limit(150).get();
+  s2.resDocs={};
+  const rows=snap.docs.map(d=>{s2.resDocs[d.id]=d.data();return {id:d.id,...d.data()}}).filter(x=>!f||(x.type||'Lecture')===f);
+  host.innerHTML=rows.length?rows.map(x=>'<div class="s1-row"><div><b>'+s1Esc(x.title||'')+'</b> <span class="s1-pill">'+s1Esc(x.type||'Lecture')+'</span><br><small>'+s1Esc(x.subject||'')+' · '+s1Esc(x.chapter||'')+'</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2EditResource(\''+p+'\',\''+x.id+'\')">Edit</button><button class="btn btn-secondary" onclick="s2DeleteResource(\''+p+'\',\''+x.id+'\')">Delete</button></div></div>').join(''):'No resources yet.';
+ }catch(e){host.textContent='Unable to load resources.'}
+}
+function s2EditResource(p,id){
+ const x=s2.resDocs[id];if(!x)return;s2.resEdit=id;
+ const set=(k,v)=>document.getElementById('s2r-'+p+'-'+k).value=v||'';
+ set('type',x.type||'Lecture');set('subject',x.subject);populateChapterSelect('s2r-'+p+'-subject','s2r-'+p+'-chapter');set('chapter',x.chapter);set('title',x.title);set('desc',x.description);set('url',x.url);
+ document.getElementById('s2r-'+p+'-edit').textContent='Editing: '+(x.title||'');document.getElementById('s2r-'+p+'-title').scrollIntoView({behavior:'smooth',block:'center'});
+}
+async function s2DeleteResource(p,id){
+ if(!s2CanManage()||!confirm('Delete this resource?'))return;
+ try{await db.collection('materials').doc(id).delete();toast('Resource deleted.');s2LoadResourceList(p)}catch(e){toast('Could not delete.')}
+}
+
+/* ---------- student: chapter page (lectures, notes, past papers, tests, results, performance) ---------- */
+async function s2MyScored(){
+ const rs=await s1LoadResults();
+ const out=await Promise.all(rs.map(async x=>{let score=null;if(typeof x.score==='number')score=x.score;else{const k=await s1FetchKey(x.testId);if(k)score=s1Score(x.selected||[],k.answers)}return {...x,score,pct:score==null?null:s1Pct(score,x.total)}}));
+ return out.sort((a,b)=>s2Sec(a.createdAt,b.createdAt));
+}
+function s2ResItem(x){const vid=(x.type||'Lecture')==='Lecture'||!x.type;return '<div class="resource-item"><i class="fa-solid '+(vid?'fa-circle-play res-icon-vid':'fa-file-pdf')+'"></i><div style="flex:1"><strong>'+s1Esc(x.title||'Learning resource')+'</strong><small>'+s1Esc(x.type||'Lecture / Study material')+'</small>'+(x.description?'<small style="display:block">'+s1Esc(x.description)+'</small>':'')+(x.url?'<a class="link" href="'+s1Esc(x.url)+'" target="_blank" rel="noopener">Open</a>':'<small>Link not provided</small>')+'</div></div>'}
+const s2OrigLoadChapter=loadChapterContent;
+loadChapterContent=async function(index,chapter){
+ await s2OrigLoadChapter(index,chapter);
+ try{
+  const mats=document.getElementById('materials-'+index);if(!mats)return;
+  const ms=await db.collection('materials').where('subject','==',currentSubject).get();
+  const docs=ms.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.chapter||'').trim()===String(chapter).trim());
+  const html=S2_GROUPS.map(([label,types])=>{const g=docs.filter(x=>types.includes(x.type||''));return '<h4 style="margin:'+(label===S2_GROUPS[0][0]?'4px':'16px')+' 0 8px;font-size:13px">'+label+'</h4>'+(g.length?g.map(s2ResItem).join(''):'<p class="empty" style="padding:10px">Nothing added yet.</p>')}).join('');
+  mats.innerHTML=html;
+  const body=document.getElementById('chapter-'+index);let perf=document.getElementById('perf-'+index);
+  if(!perf){perf=document.createElement('div');perf.id='perf-'+index;perf.style.marginTop='14px';body.appendChild(perf)}
+  const rows=(await s2MyScored()).filter(r=>r.subject===currentSubject&&r.chapter===chapter&&r.score!=null);
+  const a=s2Agg(rows,()=>chapter)[0];
+  perf.innerHTML='<h4 style="font-size:13px;margin-bottom:6px">Your performance in this chapter</h4>'+(a?s2Bar(chapter,a.pct,a.n+' test(s) · '+a.score+'/'+a.total+' marks'):'<small>No scored tests in this chapter yet.</small>');
+ }catch(e){console.warn(e)}
+};
+async function s2LoadPastPapers(){
+ const page=document.getElementById('page-past-papers');let host=document.getElementById('s2-pastpapers');
+ if(!host){host=document.createElement('div');host.id='s2-pastpapers';page.appendChild(host)}
+ try{
+  const snap=await db.collection('materials').where('type','==','Past paper').get();
+  const docs=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const emp=page.querySelector('.empty');if(emp)emp.style.display=docs.length?'none':'';
+  const subs=[...new Set(docs.map(x=>x.subject))];
+  host.innerHTML=subs.map(s=>'<div class="card"><h3 style="font-size:15px;margin-bottom:10px">'+s1Esc(s)+'</h3>'+docs.filter(x=>x.subject===s).sort((a,b)=>String(a.chapter).localeCompare(String(b.chapter))).map(x=>s2ResItem(x).replace('</strong>','</strong> <small>· '+s1Esc(x.chapter||'')+'</small>')).join('')+'</div>').join('');
+ }catch(e){console.warn(e)}
+}
+
+/* ---------- student performance dashboard ---------- */
+async function s2RenderPerformance(){
+ const host=document.getElementById('s2-perf-body');if(!host)return;host.innerHTML='<p class="subtitle">Loading…</p>';
+ try{
+  const rows=await s2MyScored();
+  if(!rows.length){host.innerHTML='<div class="empty"><i class="fa-solid fa-chart-line"></i><p>Attempt a chapter test to see your performance here.</p></div>';return}
+  const sc=rows.filter(r=>r.score!=null),tot=sc.reduce((a,r)=>a+r.total,0),got=sc.reduce((a,r)=>a+r.score,0);
+  const subj=s2Agg(rows,r=>r.subject),chap=s2Agg(rows,r=>r.subject+' · '+r.chapter);
+  const strong=chap.filter(c=>c.pct>=75),weak=chap.filter(c=>c.pct<60).sort((a,b)=>a.pct-b.pct);
+  host.innerHTML='<div class="stat-grid"><div class="stat"><strong>'+rows.length+'</strong><span>Tests attempted</span></div><div class="stat"><strong>'+(sc.length?(got/sc.length).toFixed(1):'–')+'</strong><span>Average marks</span></div><div class="stat"><strong>'+(tot?s1Pct(got,tot)+'%':'–')+'</strong><span>Overall percentage</span></div></div>'+
+  (rows.length>sc.length?'<p class="subtitle">'+(rows.length-sc.length)+' test(s) are waiting for your teacher to release marks and are not counted yet.</p>':'')+
+  '<div class="card"><h3 style="font-size:15px;margin-bottom:8px">Progress over time</h3>'+(sc.length?s2Line(sc.map(r=>r.pct)):'<small>Not enough released results yet.</small>')+'</div>'+
+  '<div class="card"><h3 style="font-size:15px;margin-bottom:6px">Subject-wise performance</h3>'+(subj.map(s=>s2Bar(s.name,s.pct,s.n+' test(s)')).join('')||'<small>No data yet.</small>')+'</div>'+
+  '<div class="card"><h3 style="font-size:15px;margin-bottom:6px">Chapter-wise performance</h3>'+(chap.map(s=>s2Bar(s.name,s.pct,s.n+' test(s)')).join('')||'<small>No data yet.</small>')+'</div>'+
+  '<div class="card"><h3 style="font-size:15px;margin-bottom:6px">Strong topics (75%+)</h3>'+(strong.length?strong.map(s=>'<div class="topic-row">'+s1Esc(s.name)+' — '+s.pct+'%</div>').join(''):'<small>Keep practising — strong topics will appear here.</small>')+'<h3 style="font-size:15px;margin:16px 0 6px">Needs more practice (below 60%)</h3>'+(weak.length?weak.map(s=>'<div class="topic-row">'+s1Esc(s.name)+' — '+s.pct+'%</div>').join(''):'<small>Nothing below 60% right now.</small>')+'</div>'+
+  '<div class="card"><h3 style="font-size:15px;margin-bottom:6px">Previous test results</h3>'+rows.slice().reverse().map(r=>'<div class="s1-row"><div><b>'+s1Esc(r.testTitle||'Test')+'</b><br><small>'+s1Esc(r.subject||'')+' · '+s1Esc(r.chapter||'')+' · '+s2Date(r.createdAt)+'</small></div><b>'+(r.score==null?'Pending':r.score+'/'+r.total+' ('+r.pct+'%)')+'</b></div>').join('')+'</div>';
+ }catch(e){console.error(e);host.innerHTML='<p class="empty">Could not load performance data.</p>'}
+}
+
+/* ---------- student community ---------- */
+let s2Thread=null;
+function s2CommInit(){
+ s2RefreshSubjectSelects();
+ const f=document.getElementById('s2-comm-subject');if(f&&!f.dataset.bound){f.dataset.bound='1';f.onchange=()=>{s2CommChapters('s2-comm-subject','s2-comm-chapter',true);s2CommLoad()};document.getElementById('s2-comm-chapter').onchange=s2CommLoad;document.getElementById('s2-new-subject').onchange=()=>s2CommChapters('s2-new-subject','s2-new-chapter',false)}
+ s2CommChapters('s2-comm-subject','s2-comm-chapter',true);s2CommChapters('s2-new-subject','s2-new-chapter',false);s2CommBack();
+}
+function s2CommChapters(sid,cid,all){const s=document.getElementById(sid).value,sel=document.getElementById(cid);sel.innerHTML=(all?'<option value="">All chapters</option>':'')+((subjectData[s]||[]).map(x=>'<option>'+s1Esc(x[0])+'</option>').join(''))}
+async function s2CommLoad(){
+ const host=document.getElementById('s2-comm-list');host.innerHTML='Loading…';
+ try{
+  const s=document.getElementById('s2-comm-subject').value,c=document.getElementById('s2-comm-chapter').value;
+  const q=s?db.collection('discussions').where('subject','==',s):db.collection('discussions').orderBy('createdAt','desc').limit(100);
+  let rows=(await q.get()).docs.map(d=>({id:d.id,...d.data()})).filter(x=>!c||x.chapter===c).sort((a,b)=>s2Sec(b.createdAt,a.createdAt));
+  host.innerHTML=rows.length?rows.map(x=>'<div class="card" style="cursor:pointer" onclick="s2OpenThread(\''+x.id+'\')"><span class="tag">'+s1Esc(x.subject)+' · '+s1Esc(x.chapter)+'</span><h4 style="margin:8px 0 4px">'+s1Esc(x.title)+'</h4><small style="color:var(--muted)">'+s1Esc(x.authorName)+(x.authorRole!=='student'?' <span class="s1-pill">'+s1Esc(x.authorRole)+'</span>':'')+' · '+s2Date(x.createdAt)+'</small></div>').join(''):'<div class="empty"><i class="fa-solid fa-comments"></i><p>No questions here yet. Be the first to ask.</p></div>';
+ }catch(e){console.error(e);host.innerHTML='<p class="empty">Could not load discussions.</p>'}
+}
+function s2CommBack(){s2Thread=null;document.getElementById('s2-comm-thread').classList.add('hidden');document.getElementById('s2-comm-main').classList.remove('hidden');s2CommLoad()}
+function s2ToggleAsk(){document.getElementById('s2-ask-form').classList.toggle('hidden')}
+async function s2PostQuestion(){
+ const subject=document.getElementById('s2-new-subject').value,chapter=document.getElementById('s2-new-chapter').value,title=document.getElementById('s2-new-title').value.trim(),body=document.getElementById('s2-new-body').value.trim();
+ if(!chapter||title.length<3||body.length<3){toast('Choose a chapter and write a title and question.');return}
+ try{
+  await db.collection('discussions').add({subject,chapter,title:title.slice(0,150),body:body.slice(0,3000),authorUid:signedInUser.uid,authorName:s2.profile.publicName,authorRole:s2IsAdmin()?'admin':(s2.profile.role==='teacher'?'teacher':'student'),createdAt:s1Ts()});
+  document.getElementById('s2-new-title').value='';document.getElementById('s2-new-body').value='';s2ToggleAsk();toast('Question posted.');s2CommLoad();
+ }catch(e){console.error(e);toast('Could not post. Your account may be restricted.')}
+}
+async function s2OpenThread(id){
+ try{
+  const [d,rs]=await Promise.all([db.collection('discussions').doc(id).get(),db.collection('discussions').doc(id).collection('replies').orderBy('createdAt','asc').get()]);
+  if(!d.exists){toast('This discussion was removed.');s2CommLoad();return}
+  s2Thread=id;const x=d.data(),me=signedInUser.uid,adm=s2IsAdmin();
+  const box=(o,rid)=>'<div class="s1-rev"><small style="color:var(--muted)">'+s1Esc(o.authorName)+(o.authorRole!=='student'?' <span class="s1-pill">'+s1Esc(o.authorRole)+'</span>':'')+' · '+s2Date(o.createdAt)+'</small><p style="font-size:13px;margin:6px 0;white-space:pre-wrap">'+s1Esc(o.body)+'</p><button class="btn btn-secondary" style="padding:5px 10px;font-size:12px" onclick="s2Report(\''+id+'\',\''+(rid||'')+'\')">Report</button>'+((adm||o.authorUid===me)?' <button class="btn btn-secondary" style="padding:5px 10px;font-size:12px" onclick="s2DeletePost(\''+id+'\',\''+(rid||'')+'\')">Delete</button>':'')+'</div>';
+  const t=document.getElementById('s2-comm-thread');
+  t.innerHTML='<div class="breadcrumb" onclick="s2CommBack()"><i class="fa-solid fa-arrow-left"></i> Back to discussions</div><div class="card"><span class="tag">'+s1Esc(x.subject)+' · '+s1Esc(x.chapter)+'</span><h3 style="margin:8px 0">'+s1Esc(x.title)+'</h3>'+box(x,'')+'<h4 style="font-size:13px;margin:12px 0 4px">'+rs.size+' repl'+(rs.size===1?'y':'ies')+'</h4>'+rs.docs.map(r=>box(r.data(),r.id)).join('')+'<div class="form-group" style="margin-top:12px"><label>Your reply</label><textarea id="s2-reply-body" class="field" rows="3"></textarea></div><button class="btn" onclick="s2PostReply(\''+id+'\')">Post reply</button></div>';
+  t.classList.remove('hidden');document.getElementById('s2-comm-main').classList.add('hidden');
+ }catch(e){console.error(e);toast('Could not open discussion.')}
+}
+async function s2PostReply(id){
+ const body=document.getElementById('s2-reply-body').value.trim();if(body.length<2){toast('Write a reply first.');return}
+ try{await db.collection('discussions').doc(id).collection('replies').add({body:body.slice(0,2000),authorUid:signedInUser.uid,authorName:s2.profile.publicName,authorRole:s2IsAdmin()?'admin':(s2.profile.role==='teacher'?'teacher':'student'),createdAt:s1Ts()});s2OpenThread(id)}catch(e){toast('Could not post reply.')}
+}
+async function s2Report(id,rid){
+ const reason=prompt('Why are you reporting this? (e.g. inappropriate, spam, personal information)');if(!reason||!reason.trim())return;
+ try{
+  const ref=rid?db.collection('discussions').doc(id).collection('replies').doc(rid):db.collection('discussions').doc(id),d=await ref.get();
+  await db.collection('reports').add({discussionId:id,replyId:rid||'',reason:reason.trim().slice(0,300),excerpt:String((d.data()||{}).body||'').slice(0,160),reporterUid:signedInUser.uid,createdAt:s1Ts()});
+  toast('Thanks — an admin will review this.');
+ }catch(e){toast('Could not send report.')}
+}
+async function s2DeletePost(id,rid){
+ if(!confirm(rid?'Delete this reply?':'Delete this question and all its replies?'))return;
+ try{
+  if(rid){await db.collection('discussions').doc(id).collection('replies').doc(rid).delete();s2OpenThread(id)}
+  else{const rs=await db.collection('discussions').doc(id).collection('replies').get();const b=db.batch();rs.docs.forEach(r=>b.delete(r.ref));b.delete(db.collection('discussions').doc(id));await b.commit();toast('Deleted.');s2CommBack()}
+ }catch(e){console.error(e);toast('Could not delete.')}
+}
+
+/* ---------- daily challenges & leaderboard ---------- */
+async function s2LoadChallenges(){
+ const host=document.getElementById('s2-chal-body');if(!host||!signedInUser)return;host.innerHTML='<p class="subtitle">Loading…</p>';
+ try{
+  const [cs,mine,myScores]=await Promise.all([db.collection('challenges').where('published','==',true).get(),db.collection('users').doc(signedInUser.uid).collection('challengeResults').get(),db.collection('challengeScores').where('uid','==',signedInUser.uid).get()]);
+  const chal=cs.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.date).localeCompare(a.date)||String(a.type).localeCompare(b.type));
+  const done=new Set(mine.docs.map(d=>d.id)),scoreOf={};myScores.docs.forEach(d=>scoreOf[d.data().challengeId]=d.data());
+  s2HealScores(mine.docs,scoreOf);
+  const today=s2Today(),tc=chal.filter(c=>c.date===today),past=chal.filter(c=>c.date!==today);
+  const card=c=>'<div class="card"><span class="tag">'+(c.type==='qotd'?'Question of the day':'Daily MCQ challenge')+(c.subject?' · '+s1Esc(c.subject):'')+'</span><h3 style="margin:8px 0 4px;font-size:16px">'+s1Esc(c.title||'')+'</h3><p class="subtitle" style="margin:0 0 10px">'+(c.questions||[]).length+' question(s) · '+Number(c.duration||5)+' min · '+s1Esc(c.date)+'</p>'+(done.has(c.id)?'<button class="btn btn-secondary" onclick="s2ReviewChallenge(\''+c.id+'\')">Attempted · '+(scoreOf[c.id]?scoreOf[c.id].score+'/'+scoreOf[c.id].total+' · ':'')+'View result</button>':(c.date===today?'<button class="btn" onclick="s2StartChallenge(\''+c.id+'\')">Start</button>':'<small>This challenge has closed.</small>'))+'</div>';
+  const myPts=Object.values(scoreOf).reduce((a,x)=>a+x.score,0),days=new Set(Object.values(scoreOf).map(x=>x.date)).size;
+  host.innerHTML='<div class="stat-grid"><div class="stat"><strong>'+myPts+'</strong><span>Total points</span></div><div class="stat"><strong>'+days+'</strong><span>Days participated</span></div><div class="stat"><strong>'+Object.keys(scoreOf).length+'</strong><span>Challenges completed</span></div></div>'+
+  '<h3 style="font-size:15px;margin:6px 0 10px">Today</h3>'+(tc.length?tc.map(card).join(''):'<div class="empty"><i class="fa-solid fa-calendar-day"></i><p>No challenge has been published for today yet.</p></div>')+
+  '<div class="card"><h3 style="font-size:15px;margin-bottom:8px">Leaderboard</h3><div class="tabs"><div class="tab active" id="s2-lb-w" onclick="s2Leaderboard(\'week\')">This week</div><div class="tab" id="s2-lb-l" onclick="s2Leaderboard(\'last\')">Last week</div><div class="tab" id="s2-lb-a" onclick="s2Leaderboard(\'all\')">All time</div></div><div id="s2-lb-body">Loading…</div></div>'+
+  '<h3 style="font-size:15px;margin:6px 0 10px">Challenge history</h3>'+(past.length?past.map(card).join(''):'<p class="subtitle">No earlier challenges yet.</p>');
+  s2Leaderboard('week');
+ }catch(e){console.error(e);host.innerHTML='<p class="empty">Could not load challenges.</p>'}
+}
+async function s2HealScores(resultDocs,scoreOf){
+ for(const d of resultDocs){
+  if(scoreOf[d.id])continue;
+  try{const key=await s2ChalKey(d.id);if(key){const x=d.data();await s2WriteScore(d.id,x,key)}}catch(e){}
+ }
+}
+async function s2ChalKey(id){try{const k=await db.collection('challengeKeys').doc(id).get();return k.exists?k.data():null}catch(e){return null}}
+async function s2WriteScore(id,res,key){
+ const c=(await db.collection('challenges').doc(id).get()).data();
+ await db.collection('challengeScores').doc(id+'_'+signedInUser.uid).set({uid:signedInUser.uid,publicName:s2.profile.publicName,challengeId:id,type:c.type,date:c.date,weekId:c.weekId,score:s1Score(res.selected,key.answers),total:c.questions.length,createdAt:s1Ts()});
+}
+async function s2Leaderboard(which){
+ ['w','l','a'].forEach(k=>{const e=document.getElementById('s2-lb-'+k);if(e)e.classList.toggle('active',k===(which==='week'?'w':which==='last'?'l':'a'))});
+ const host=document.getElementById('s2-lb-body');if(!host)return;host.innerHTML='Loading…';
+ try{
+  const thisW=s2Week(s2Today()),ld=new Date(thisW+'T00:00:00');ld.setDate(ld.getDate()-7);
+  const q=which==='all'?db.collection('challengeScores').limit(3000):db.collection('challengeScores').where('weekId','==',which==='week'?thisW:s2D(ld));
+  const by={};(await q.get()).docs.forEach(d=>{const x=d.data(),u=(by[x.uid]=by[x.uid]||{uid:x.uid,name:x.publicName,pts:0,dates:new Set(),n:0});u.pts+=x.score;u.dates.add(x.date);u.n++});
+  const list=Object.values(by).sort((a,b)=>b.pts-a.pts||b.dates.size-a.dates.size||String(a.name).localeCompare(b.name));
+  host.innerHTML=list.length?list.slice(0,50).map((u,i)=>'<div class="s1-row" style="'+(u.uid===signedInUser.uid?'background:#eaf7f7;border-radius:8px;padding-left:8px;padding-right:8px':'')+'"><div><b>#'+(i+1)+'</b> '+s1Esc(u.name)+(u.uid===signedInUser.uid?' (you)':'')+'<br><small>'+u.dates.size+' day(s) participated</small></div><b>'+u.pts+' pts</b></div>').join('')+((list.findIndex(u=>u.uid===signedInUser.uid)>=50)?'<p class="subtitle">Your rank: #'+(list.findIndex(u=>u.uid===signedInUser.uid)+1)+'</p>':''):'<small>No scores yet for this period.</small>';
+ }catch(e){console.error(e);host.textContent='Could not load leaderboard.'}
+}
+async function s2StartChallenge(id){
+ try{
+  const prev=await db.collection('users').doc(signedInUser.uid).collection('challengeResults').doc(id).get();
+  if(prev.exists){toast('You have already completed this challenge.');return}
+  const d=await db.collection('challenges').doc(id).get();if(!d.exists||d.data().published!==true){toast('Not available.');return}
+  const c={id:d.id,...d.data()};
+  s1Open({mode:'challenge',test:{id:c.id,subject:c.subject||'Daily challenge',chapter:c.date,title:c.title,instructions:'You can attempt each daily challenge once. Your score counts towards the leaderboard.',duration:c.duration||5,questions:c.questions},index:0});
+ }catch(e){console.error(e);toast('Could not start challenge.')}
+}
+async function s2ReviewChallenge(id){
+ try{
+  const [r,c]=await Promise.all([db.collection('users').doc(signedInUser.uid).collection('challengeResults').doc(id).get(),db.collection('challenges').doc(id).get()]);
+  if(!r.exists||!c.exists){toast('Not available.');return}
+  const t={id,subject:c.data().subject||'Daily challenge',chapter:c.data().date,title:c.data().title,questions:c.data().questions,duration:c.data().duration};
+  s1Open({mode:'challenge',test:t,index:0});const rn=s1Runner;rn.selected=r.data().selected;rn.key=await s2ChalKey(id);rn.phase='review';s1Render();
+ }catch(e){toast('Could not load result.')}
+}
+const s2SubmitOrig=s1Submit;
+s1Submit=async function(auto){
+ const r=s1Runner;if(!r||r.mode!=='challenge')return s2SubmitOrig(auto);
+ if(r.phase!=='run'||r.submitting)return;
+ if(!auto){const un=r.selected.filter(x=>x<0).length;if(!confirm(un?('You have '+un+' unanswered question(s). Submit anyway?'):'Submit your answers now?'))return}
+ r.submitting=true;clearInterval(s1Timer);const t=r.test;
+ try{
+  const res={challengeId:t.id,selected:r.selected,total:t.questions.length,date:t.chapter,createdAt:s1Ts()};
+  await db.collection('users').doc(signedInUser.uid).collection('challengeResults').doc(t.id).set(res);
+  r.key=await s2ChalKey(t.id);
+  if(r.key){try{await s2WriteScore(t.id,res,r.key)}catch(e){console.warn('Score will be recorded next time you open Challenges',e)}}
+  r.phase='review';s1Render();
+ }catch(e){console.error(e);r.submitting=false;toast('Could not save. Check your connection and try again.');r.phase='run';r.deadline=Math.max(r.deadline,Date.now()+60000);s1Timer=setInterval(s1Tick,500);s1Render()}
+};
+const s2CloseOrig=s1Close;
+s1Close=function(silent){const r=s1Runner;s2CloseOrig(silent);if(!silent&&r&&r.mode==='challenge')s2LoadChallenges()};
+
+/* ---------- advanced admin panel ---------- */
+const S2_TABS=[['students','Students'],['teachers','Teachers'],['curriculum','Subjects & Chapters'],['resources','Lectures, Notes & Papers'],['tests','MCQ Tests'],['notices','Notices'],['results','Results'],['community','Community'],['challenges','Daily Challenges'],['analytics','Analytics']];
+function s2InitAdminPanel(){
+ if(!s2IsAdmin())return;
+ const t=document.getElementById('s2-tabs');
+ if(!t.dataset.done){t.dataset.done='1';t.innerHTML=S2_TABS.map(([k,l])=>'<div class="tab" data-s2tab="'+k+'" onclick="s2Tab(\''+k+'\')">'+l+'</div>').join('')}
+}
+function s2Tab(k){
+ if(!s2IsAdmin())return;
+ document.querySelectorAll('#s2-tabs .tab').forEach(e=>e.classList.toggle('active',e.dataset.s2tab===k));
+ const host=document.getElementById('s2-panel');
+ if(k==='tests'){host.innerHTML='<p class="subtitle">Use “Create chapter MCQ test” and “Manage MCQ tests” on this page.</p>';const e=document.getElementById('admin-tests-list');if(e)e.scrollIntoView({behavior:'smooth'});return}
+ host.innerHTML='Loading…';
+ ({students:()=>s2Students(false),teachers:()=>s2Students(true),curriculum:s2Curriculum,resources:()=>s2RenderResources('s2-panel','a'),notices:s2Notices,results:s2ResultsPanel,community:s2Moderation,challenges:s2ChalAdmin,analytics:s2Analytics})[k]();
+}
+async function s2AdminData(force){
+ if(!force&&s2.cache&&Date.now()-s2.cache.t<60000)return s2.cache;
+ const [rs,ts,ks,us]=await Promise.all([db.collectionGroup('results').get(),db.collection('tests').get(),db.collection('testKeys').get(),db.collection('users').get()]);
+ const tests={},keys={},users={};ts.forEach(d=>tests[d.id]=d.data());ks.forEach(d=>keys[d.id]=d.data());us.forEach(d=>users[d.id]={id:d.id,...d.data()});
+ const rows=rs.docs.map(d=>{const x=d.data(),uid=d.ref.parent.parent.id;let score=null;if(typeof x.score==='number')score=x.score;else if(keys[x.testId]&&x.selected)score=s1Score(x.selected,keys[x.testId].answers);return {uid,testId:x.testId,title:x.testTitle,subject:x.subject,chapter:x.chapter,total:x.total,score,pct:score==null?null:s1Pct(score,x.total),selected:x.selected,createdAt:x.createdAt}}).sort((a,b)=>s2Sec(b.createdAt,a.createdAt));
+ return s2.cache={t:Date.now(),tests,keys,users,rows};
+}
+const s2Who=u=>u?(u.displayName||u.email||u.id):'Unknown';
+
+/* students & teachers */
+async function s2Students(teachersOnly){
+ const host=document.getElementById('s2-panel');
+ try{
+  const d=await s2AdminData(true);s2.stu={d,teachersOnly};
+  host.innerHTML='<p class="subtitle" style="margin-top:0">Accounts appear here after the student signs in once on this updated site. Passwords are never shown.</p><div class="form-group"><input id="s2-stu-q" class="field" placeholder="Search name or email" oninput="s2StuList()"></div>'+(teachersOnly?'':'<div class="form-group"><select id="s2-stu-f" class="field" onchange="s2StuList()"><option value="">All accounts</option><option value="student">Students</option><option value="teacher">Teachers</option><option value="suspended">Suspended</option><option value="inactive">Never attempted a test</option></select></div>')+'<div id="s2-stu-list"></div><div id="s2-stu-detail"></div>';
+  s2StuList();
+ }catch(e){console.error(e);host.textContent=adminErrorText(e)}
+}
+function s2StuList(){
+ const {d,teachersOnly}=s2.stu,q=(document.getElementById('s2-stu-q').value||'').toLowerCase(),fEl=document.getElementById('s2-stu-f'),f=fEl?fEl.value:'';
+ const att={};d.rows.forEach(r=>att[r.uid]=(att[r.uid]||0)+1);
+ let list=Object.values(d.users).filter(u=>u.id!==signedInUser.uid||true);
+ if(teachersOnly)list=list.filter(u=>u.role==='teacher');
+ if(f==='student')list=list.filter(u=>(u.role||'student')==='student');if(f==='teacher')list=list.filter(u=>u.role==='teacher');if(f==='suspended')list=list.filter(u=>u.status==='suspended');if(f==='inactive')list=list.filter(u=>!att[u.id]);
+ if(q)list=list.filter(u=>((u.email||'')+' '+(u.displayName||'')+' '+(u.publicName||'')).toLowerCase().includes(q));
+ list.sort((a,b)=>String(a.email).localeCompare(String(b.email)));
+ document.getElementById('s2-stu-list').innerHTML=list.length?list.map(u=>'<div class="s1-row"><div><b>'+s1Esc(s2Who(u))+'</b> <span class="s1-pill">'+s1Esc(u.role||'student')+'</span>'+(u.status==='suspended'?' <span class="s1-pill draft">suspended</span>':'')+'<br><small>'+s1Esc(u.email||'')+' · '+(att[u.id]||0)+' test(s)</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2StuView(\''+u.id+'\')">View</button></div></div>').join(''):'No accounts found.';
+}
+async function s2StuView(uid){
+ const {d}=s2.stu,u=d.users[uid],host=document.getElementById('s2-stu-detail');if(!u)return;
+ const rows=d.rows.filter(r=>r.uid===uid),sc=rows.filter(r=>r.score!=null),tot=sc.reduce((a,r)=>a+r.total,0),got=sc.reduce((a,r)=>a+r.score,0),subj=s2Agg(rows,r=>r.subject);
+ let pts=0,days=0;try{const cs=await db.collection('challengeScores').where('uid','==',uid).get();pts=cs.docs.reduce((a,x)=>a+x.data().score,0);days=new Set(cs.docs.map(x=>x.data().date)).size}catch(e){}
+ host.innerHTML='<div class="card" style="margin-top:14px"><h3 style="font-size:15px">'+s1Esc(s2Who(u))+'</h3><p style="font-size:12px;color:var(--muted);line-height:1.8">Email: '+s1Esc(u.email||'')+'<br>Public name: '+s1Esc(u.publicName||'')+'<br>Role: '+s1Esc(u.role||'student')+' · Status: '+s1Esc(u.status||'active')+'<br>Joined: '+s2Date(u.createdAt)+'</p>'+
+ '<div class="acts" style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0"><button class="btn btn-secondary" onclick="s2SetRole(\''+uid+'\',\''+(u.role==='teacher'?'student':'teacher')+'\')">'+(u.role==='teacher'?'Make student':'Make teacher')+'</button><button class="btn btn-secondary" onclick="s2SetStatus(\''+uid+'\',\''+(u.status==='suspended'?'active':'suspended')+'\')">'+(u.status==='suspended'?'Reactivate account':'Suspend account')+'</button><button class="btn btn-secondary" onclick="s2ResetPw(\''+uid+'\')">Send password-reset email</button></div>'+
+ '<div class="stat-grid"><div class="stat"><strong>'+rows.length+'</strong><span>Tests</span></div><div class="stat"><strong>'+(tot?s1Pct(got,tot)+'%':'–')+'</strong><span>Overall</span></div><div class="stat"><strong>'+pts+' / '+days+'d</strong><span>Challenge pts / days</span></div></div>'+
+ '<h4 style="font-size:13px;margin:12px 0 4px">Progress by subject</h4>'+(subj.map(s=>s2Bar(s.name,s.pct,s.n+' test(s)')).join('')||'<small>No scored tests.</small>')+
+ '<h4 style="font-size:13px;margin:12px 0 4px">Test history</h4>'+(rows.map(r=>'<div class="s1-row"><div><b>'+s1Esc(r.title||'')+'</b><br><small>'+s1Esc(r.subject||'')+' · '+s1Esc(r.chapter||'')+' · '+s2Date(r.createdAt)+'</small></div><b>'+(r.score==null?'—':r.score+'/'+r.total+' ('+r.pct+'%)')+'</b></div>').join('')||'<small>No attempts.</small>')+'</div>';
+ host.scrollIntoView({behavior:'smooth'});
+}
+async function s2SetRole(uid,role){if(!s2IsAdmin()||!confirm('Change this account to '+role+'?'))return;try{await db.collection('users').doc(uid).update({role});toast('Role updated.');s2Students(s2.stu.teachersOnly)}catch(e){toast('Could not update role.')}}
+async function s2SetStatus(uid,status){if(!s2IsAdmin()||!confirm((status==='suspended'?'Suspend':'Reactivate')+' this account?'))return;try{await db.collection('users').doc(uid).update({status});toast('Account '+status+'.');s2Students(s2.stu.teachersOnly)}catch(e){toast('Could not update status.')}}
+async function s2ResetPw(uid){const u=s2.stu.d.users[uid];if(!u||!u.email||!confirm('Send a password-reset email to '+u.email+'?'))return;try{await auth.sendPasswordResetEmail(u.email);toast('Reset email sent.')}catch(e){toast('Could not send reset email.')}}
+
+/* subjects & chapters */
+async function s2Curriculum(){
+ const host=document.getElementById('s2-panel');await s2LoadCurriculum();
+ host.innerHTML='<p class="subtitle" style="margin-top:0">Built-in subjects and chapters stay as they are. You can add new ones here.</p><div class="card"><h4 style="font-size:13px;margin-bottom:8px">Add subject</h4><div class="form-group"><input id="s2-new-subj" class="field" placeholder="Subject name"></div><button class="btn" onclick="s2AddSubject()">Add subject</button></div><div class="card"><h4 style="font-size:13px;margin-bottom:8px">Add chapter</h4><div class="form-group"><select id="s2-ch-subj" class="field s2-subj"></select></div><div class="form-group"><input id="s2-new-ch" class="field" placeholder="Chapter name"></div><button class="btn" onclick="s2AddChapter()">Add chapter</button></div><div class="card"><h4 style="font-size:13px;margin-bottom:8px">Added by you</h4>'+
+ (s2.custom.subs.map(s=>'<div class="s1-row"><div><b>Subject:</b> '+s1Esc(s.name)+'</div><div class="acts"><button class="btn btn-secondary" onclick="s2DelCurr(\'subjects\',\''+s.id+'\')">Delete</button></div></div>').join('')+s2.custom.chs.map(c=>'<div class="s1-row"><div><b>Chapter:</b> '+s1Esc(c.name)+' <small>('+s1Esc(c.subject)+')</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2DelCurr(\'chapters\',\''+c.id+'\')">Delete</button></div></div>').join('')||'Nothing added yet.')+'</div>';
+ s2RefreshSubjectSelects();
+}
+async function s2AddSubject(){const n=document.getElementById('s2-new-subj').value.trim();if(n.length<2||subjectData[n]){toast('Enter a new subject name.');return}try{await db.collection('subjects').add({name:n,createdAt:s1Ts()});toast('Subject added.');s2Curriculum()}catch(e){toast('Could not add subject.')}}
+async function s2AddChapter(){const s=document.getElementById('s2-ch-subj').value,n=document.getElementById('s2-new-ch').value.trim();if(!s||n.length<2||(subjectData[s]||[]).some(x=>x[0]===n)){toast('Choose a subject and enter a new chapter name.');return}try{await db.collection('chapters').add({subject:s,name:n,createdAt:s1Ts()});toast('Chapter added.');s2Curriculum()}catch(e){toast('Could not add chapter.')}}
+async function s2DelCurr(col,id){if(!confirm('Delete this item? Existing resources and tests that use it are kept.'))return;try{await db.collection(col).doc(id).delete();toast('Deleted. Reload the site to refresh menus.');s2Curriculum()}catch(e){toast('Could not delete.')}}
+
+/* notices */
+async function s2Notices(){
+ const host=document.getElementById('s2-panel');
+ try{const ns=await db.collection('notices').orderBy('createdAt','desc').limit(50).get();host.innerHTML=ns.empty?'No notices yet. Use “Publish a notice” above.':ns.docs.map(d=>'<div class="s1-row"><div><b>'+s1Esc(d.data().title)+'</b><br><small>'+s1Esc(d.data().body)+'</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2DelNotice(\''+d.id+'\')">Delete</button></div></div>').join('')}catch(e){host.textContent=adminErrorText(e)}
+}
+async function s2DelNotice(id){if(!confirm('Delete this notice?'))return;try{await db.collection('notices').doc(id).delete();toast('Notice deleted.');s2Notices();loadPublicNotices()}catch(e){toast('Could not delete.')}}
+
+/* results & analytics */
+async function s2ResultsPanel(){
+ const host=document.getElementById('s2-panel');
+ try{
+  const d=await s2AdminData(true);
+  host.innerHTML='<div class="form-group"><select id="s2-res-test" class="field" onchange="s2ResFilter()"><option value="">All tests</option>'+Object.entries(d.tests).map(([id,t])=>'<option value="'+id+'">'+s1Esc(t.title||id)+'</option>').join('')+'</select></div><div id="s2-res-list"></div>';s2ResFilter();
+ }catch(e){host.textContent=adminErrorText(e)}
+}
+function s2ResFilter(){
+ const d=s2.cache,f=document.getElementById('s2-res-test').value,rows=d.rows.filter(r=>!f||r.testId===f);
+ document.getElementById('s2-res-list').innerHTML=rows.length?rows.slice(0,300).map(r=>'<div class="s1-row"><div><b>'+s1Esc(s2Who(d.users[r.uid]))+'</b><br><small>'+s1Esc(r.title||'')+' · '+s1Esc(r.subject||'')+' · '+s2Date(r.createdAt)+'</small></div><b>'+(r.score==null?'—':r.score+'/'+r.total+' ('+r.pct+'%)')+'</b></div>').join(''):'No results yet.';
+}
+async function s2Analytics(){
+ const host=document.getElementById('s2-panel');
+ try{
+  const d=await s2AdminData(true),sc=d.rows.filter(r=>r.score!=null),tot=sc.reduce((a,r)=>a+r.total,0),got=sc.reduce((a,r)=>a+r.score,0);
+  const subj=s2Agg(d.rows,r=>r.subject),byTest=s2Agg(d.rows,r=>r.testId),byStu=s2Agg(d.rows,r=>r.uid);
+  const hard=[];Object.entries(d.tests).forEach(([id,t])=>{const k=d.keys[id];if(!k)return;const rs=d.rows.filter(r=>r.testId===id&&r.selected);if(rs.length<2)return;(t.questions||[]).forEach((q,i)=>{const ok=rs.filter(r=>Number(r.selected[i])===Number(k.answers[i])).length;hard.push({txt:(t.title||'')+' · Q'+(i+1),pct:s1Pct(ok,rs.length),n:rs.length})})});
+  hard.sort((a,b)=>a.pct-b.pct);
+  host.innerHTML='<div class="stat-grid"><div class="stat"><strong>'+Object.values(d.users).length+'</strong><span>Accounts</span></div><div class="stat"><strong>'+d.rows.length+'</strong><span>Test attempts</span></div><div class="stat"><strong>'+(tot?s1Pct(got,tot)+'%':'–')+'</strong><span>Average score</span></div></div>'+
+  '<div class="card"><h4 style="font-size:13px">Subject-wise average</h4>'+(subj.map(s=>s2Bar(s.name,s.pct,s.n+' attempt(s)')).join('')||'<small>No data.</small>')+'</div>'+
+  '<div class="card"><h4 style="font-size:13px">Test-wise average</h4>'+(byTest.map(s=>s2Bar((d.tests[s.name]||{}).title||s.name,s.pct,s.n+' attempt(s)')).join('')||'<small>No data.</small>')+'</div>'+
+  '<div class="card"><h4 style="font-size:13px">Top students (average %)</h4>'+(byStu.slice(0,10).map(s=>s2Bar(s2Who(d.users[s.name]),s.pct,s.n+' test(s)')).join('')||'<small>No data.</small>')+'</div>'+
+  '<div class="card"><h4 style="font-size:13px">Students needing support (lowest average)</h4>'+(byStu.slice().reverse().slice(0,10).map(s=>s2Bar(s2Who(d.users[s.name]),s.pct,s.n+' test(s)')).join('')||'<small>No data.</small>')+'</div>'+
+  '<div class="card"><h4 style="font-size:13px">Hardest questions</h4>'+(hard.slice(0,10).map(h=>s2Bar(h.txt,h.pct,h.n+' answered')).join('')||'<small>Needs at least 2 attempts on a test.</small>')+'</div>';
+ }catch(e){console.error(e);host.textContent=adminErrorText(e)}
+}
+
+/* community moderation */
+async function s2Moderation(){
+ const host=document.getElementById('s2-panel');
+ try{
+  const [rp,ds]=await Promise.all([db.collection('reports').orderBy('createdAt','desc').limit(50).get(),db.collection('discussions').orderBy('createdAt','desc').limit(50).get()]);
+  host.innerHTML='<div class="card"><h4 style="font-size:13px;margin-bottom:6px">Reports</h4>'+(rp.empty?'No reports.':rp.docs.map(d=>{const x=d.data();return '<div class="s1-row"><div><b>'+s1Esc(x.reason)+'</b><br><small>'+s1Esc(x.excerpt||'')+'</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2ModRemove(\''+d.id+'\',\''+x.discussionId+'\',\''+(x.replyId||'')+'\')">Remove content</button><button class="btn btn-secondary" onclick="s2ModDismiss(\''+d.id+'\')">Dismiss</button></div></div>'}).join(''))+'</div><div class="card"><h4 style="font-size:13px;margin-bottom:6px">Recent discussions</h4>'+(ds.empty?'None yet.':ds.docs.map(d=>'<div class="s1-row"><div><b>'+s1Esc(d.data().title)+'</b><br><small>'+s1Esc(d.data().subject)+' · '+s1Esc(d.data().chapter)+' · '+s1Esc(d.data().authorName)+'</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2ModRemove(\'\',\''+d.id+'\',\'\')">Remove</button></div></div>').join(''))+'</div>';
+ }catch(e){console.error(e);host.textContent=adminErrorText(e)}
+}
+async function s2ModRemove(reportId,did,rid){
+ if(!s2IsAdmin()||!confirm('Remove this content permanently?'))return;
+ try{
+  const b=db.batch();
+  if(rid)b.delete(db.collection('discussions').doc(did).collection('replies').doc(rid));
+  else{const rs=await db.collection('discussions').doc(did).collection('replies').get();rs.docs.forEach(r=>b.delete(r.ref));b.delete(db.collection('discussions').doc(did))}
+  if(reportId)b.delete(db.collection('reports').doc(reportId));
+  await b.commit();toast('Content removed.');s2Moderation();
+ }catch(e){console.error(e);toast('Could not remove content.')}
+}
+async function s2ModDismiss(id){try{await db.collection('reports').doc(id).delete();s2Moderation()}catch(e){toast('Could not dismiss.')}}
+
+/* daily challenge admin */
+async function s2ChalAdmin(){
+ const host=document.getElementById('s2-panel');
+ host.innerHTML='<div class="card"><h4 style="font-size:13px;margin-bottom:8px">Create daily challenge / question of the day</h4><div class="form-group"><label>Date</label><input id="s2-chal-date" type="date" class="field"></div><div class="form-group"><label>Type</label><select id="s2-chal-type" class="field"><option value="daily">Daily MCQ challenge (up to 10 questions)</option><option value="qotd">Question of the day (1 question)</option></select></div><div class="form-group"><label>Subject (optional label)</label><select id="s2-chal-subject" class="field s2-subj" data-all="1"></select></div><div class="form-group"><label>Title</label><input id="s2-chal-title" class="field"></div><div class="form-group"><label>Duration (minutes)</label><input id="s2-chal-dur" type="number" min="1" max="60" value="5" class="field"></div><div id="s2-chal-questions"></div><button class="btn btn-secondary" onclick="s2AddQ(\'s2-chal-questions\')">+ Add MCQ</button> <button class="btn" onclick="s2SaveChal(true)">Publish</button> <button class="btn btn-secondary" onclick="s2SaveChal(false)">Save as draft</button><p class="subtitle" style="margin-top:10px">Publish on the day: students can read published questions (not answers). Saving the same date and type again replaces it.</p></div><div class="card"><h4 style="font-size:13px;margin-bottom:6px">Existing challenges</h4><div id="s2-chal-list">Loading…</div></div>';
+ s2RefreshSubjectSelects();document.getElementById('s2-chal-date').value=s2Today();s2AddQ('s2-chal-questions');s2ChalList();
+}
+function s2AddQ(hostId,data){
+ const host=document.getElementById(hostId),box=document.createElement('div');box.className='card';box.style.margin='10px 0';
+ box.innerHTML='<h4 style="font-size:13px"></h4><div class="s1-q-tools"><button type="button" class="btn btn-secondary" data-mv="up">↑ Up</button><button type="button" class="btn btn-secondary" data-mv="down">↓ Down</button><button type="button" class="btn btn-secondary" data-mv="del">Delete</button></div><div class="form-group"><textarea class="field" rows="2" data-q="text" placeholder="Question"></textarea></div>'+[0,1,2,3].map(n=>'<div class="form-group"><input class="field" data-opt="'+n+'" placeholder="Option '+String.fromCharCode(65+n)+'"></div>').join('')+'<div class="form-group"><label>Correct option</label><select class="field" data-q="answer"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div><div class="form-group"><textarea class="field" rows="2" data-q="explanation" placeholder="Explanation (optional)"></textarea></div>';
+ const num=()=>[...host.children].forEach((c,i)=>c.querySelector('h4').textContent='Question '+(i+1));
+ box.querySelector('[data-mv="up"]').onclick=()=>{if(box.previousElementSibling){host.insertBefore(box,box.previousElementSibling);num()}};
+ box.querySelector('[data-mv="down"]').onclick=()=>{if(box.nextElementSibling){host.insertBefore(box.nextElementSibling,box);num()}};
+ box.querySelector('[data-mv="del"]').onclick=()=>{box.remove();num()};
+ host.appendChild(box);num();
+}
+async function s2SaveChal(publish){
+ if(!s2IsAdmin())return;
+ const date=document.getElementById('s2-chal-date').value,type=document.getElementById('s2-chal-type').value,title=document.getElementById('s2-chal-title').value.trim(),subject=document.getElementById('s2-chal-subject').value,duration=Math.min(60,Math.max(1,Number(document.getElementById('s2-chal-dur').value)||5));
+ const boxes=[...document.querySelectorAll('#s2-chal-questions>.card')];
+ if(!date||!title){toast('Enter a date and title.');return}
+ if(!boxes.length||boxes.length>10||(type==='qotd'&&boxes.length!==1)){toast(type==='qotd'?'A question of the day needs exactly 1 question.':'Add 1 to 10 questions.');return}
+ const questions=[],answers=[],explanations=[];
+ for(const b of boxes){const q=b.querySelector('[data-q="text"]').value.trim(),o=[0,1,2,3].map(n=>b.querySelector('[data-opt="'+n+'"]').value.trim());if(!q||o.some(x=>!x)){toast('Complete every question and all four options.');return}questions.push({question:q,options:o});answers.push(Number(b.querySelector('[data-q="answer"]').value));explanations.push(b.querySelector('[data-q="explanation"]').value.trim())}
+ try{
+  const id=date+'_'+type,open=new Date(date+'T00:00:00'),close=new Date(open.getTime());close.setDate(close.getDate()+1);
+  const b=db.batch();
+  b.set(db.collection('challenges').doc(id),{date,type,title,subject:subject||'',duration,weekId:s2Week(date),opensAt:firebase.firestore.Timestamp.fromDate(open),closesAt:firebase.firestore.Timestamp.fromDate(close),questions,published:!!publish,createdAt:s1Ts(),createdBy:signedInUser.email});
+  b.set(db.collection('challengeKeys').doc(id),{answers,explanations,updatedAt:s1Ts()});
+  await b.commit();toast(publish?'Challenge published.':'Draft saved.');s2ChalAdmin();
+ }catch(e){console.error(e);toast('Could not save challenge. Check Firestore rules.')}
+}
+async function s2ChalList(){
+ const host=document.getElementById('s2-chal-list');
+ try{const snap=await db.collection('challenges').get();const rows=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.date).localeCompare(a.date));
+  host.innerHTML=rows.length?rows.map(c=>'<div class="s1-row"><div><b>'+s1Esc(c.title)+'</b> <span class="s1-pill '+(c.published?'':'draft')+'">'+(c.published?'Published':'Draft')+'</span><br><small>'+s1Esc(c.date)+' · '+(c.type==='qotd'?'Question of the day':'Daily MCQ')+' · '+(c.questions||[]).length+' Q</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2ChalToggle(\''+c.id+'\','+(!c.published)+')">'+(c.published?'Unpublish':'Publish')+'</button><button class="btn btn-secondary" onclick="s2ChalDel(\''+c.id+'\')">Delete</button></div></div>').join(''):'None yet.'}catch(e){host.textContent='Could not load.'}
+}
+async function s2ChalToggle(id,p){try{await db.collection('challenges').doc(id).update({published:p});s2ChalList()}catch(e){toast('Could not update.')}}
+async function s2ChalDel(id){if(!confirm('Delete this challenge? Student scores already recorded are kept.'))return;try{const b=db.batch();b.delete(db.collection('challenges').doc(id));b.delete(db.collection('challengeKeys').doc(id));await b.commit();s2ChalList()}catch(e){toast('Could not delete.')}}
+
+/* ---------- page hooks ---------- */
+const s2ShowPageOrig=showPage;
+showPage=function(name){
+ s2ShowPageOrig(name);
+ if(!signedInUser)return;
+ if(name==='performance')s2RenderPerformance();
+ if(name==='community')s2CommInit();
+ if(name==='challenges')s2LoadChallenges();
+ if(name==='past-papers')s2LoadPastPapers();
+ if(name==='teacher'&&s2CanManage())s2RenderResources('s2-teacher-panel','t');
+ if(name==='admin-dashboard'&&s2IsAdmin())s2InitAdminPanel();
+};
+
+/* ---------- Past Paper Marathon (PDF tests + quizzes) and Guidance PDFs (SOS, Time Table) ---------- */
+S2_TABS.splice(4,0,['marathon','Past Paper Marathon'],['guidance','Guidance PDFs']);
+const s2TabOrig=s2Tab;
+s2Tab=function(k){
+ if(k!=='marathon'&&k!=='guidance')return s2TabOrig(k);
+ if(!s2IsAdmin())return;
+ document.querySelectorAll('#s2-tabs .tab').forEach(e=>e.classList.toggle('active',e.dataset.s2tab===k));
+ document.getElementById('s2-panel').innerHTML='Loading…';
+ (k==='marathon'?s2MarathonAdmin:s2GuidanceAdmin)();
+};
+
+/* admin: marathon */
+async function s2MarathonAdmin(){
+ const host=document.getElementById('s2-panel');
+ try{
+  const [ms,ts]=await Promise.all([db.collection('marathonItems').get(),db.collection('tests').get()]);
+  const items=ms.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>s2Sec(b.createdAt,a.createdAt));
+  s2.mTests=ts.docs.filter(d=>d.data().published===true).map(d=>({id:d.id,...d.data()}));
+  const sets=[...new Set(items.map(x=>x.set))];
+  host.innerHTML='<div class="card"><h4 style="font-size:13px;margin-bottom:8px">Add to Past Paper Marathon</h4>'+
+  '<div class="form-group"><label>Marathon set (e.g. university or year)</label><input id="s2-m-set" class="field" list="s2-m-sets" placeholder="e.g. UHS MDCAT 2024"><datalist id="s2-m-sets">'+sets.map(s=>'<option value="'+s1Esc(s)+'">').join('')+'</datalist></div>'+
+  '<div class="form-group"><label>Type</label><select id="s2-m-kind" class="field" onchange="s2MKind()"><option value="pdf">PDF test / paper (link)</option><option value="quiz">Quiz (published MCQ test)</option></select></div>'+
+  '<div class="form-group"><label>Title</label><input id="s2-m-title" class="field"></div><div class="form-group"><label>Description (optional)</label><textarea id="s2-m-desc" class="field" rows="2"></textarea></div>'+
+  '<div class="form-group" id="s2-m-pdf"><label>PDF link (https://…)</label><input id="s2-m-url" class="field" type="url" placeholder="https://..."></div>'+
+  '<div class="form-group hidden" id="s2-m-quiz"><label>Choose a published MCQ test</label><select id="s2-m-test" class="field">'+(s2.mTests.length?s2.mTests.map(t=>'<option value="'+t.id+'">'+s1Esc(t.title||t.id)+' — '+s1Esc(t.subject||'')+' / '+s1Esc(t.chapter||'')+'</option>').join(''):'<option value="">No published tests yet</option>')+'</select><small style="color:var(--muted)">Create the quiz first under “Create chapter MCQ test”, then attach it here.</small></div>'+
+  '<button class="btn" onclick="s2SaveMarathon()">Add</button></div><div class="card"><h4 style="font-size:13px;margin-bottom:6px">Marathon items</h4>'+
+  (items.length?items.map(x=>'<div class="s1-row"><div><b>'+s1Esc(x.title)+'</b> <span class="s1-pill">'+(x.kind==='quiz'?'Quiz':'PDF')+'</span><br><small>'+s1Esc(x.set)+'</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2DelMarathon(\''+x.id+'\')">Delete</button></div></div>').join(''):'Nothing added yet.')+'</div>';
+ }catch(e){console.error(e);host.textContent=adminErrorText(e)}
+}
+function s2MKind(){const q=document.getElementById('s2-m-kind').value==='quiz';document.getElementById('s2-m-pdf').classList.toggle('hidden',q);document.getElementById('s2-m-quiz').classList.toggle('hidden',!q)}
+async function s2SaveMarathon(){
+ if(!s2CanManage())return;
+ const set=document.getElementById('s2-m-set').value.trim(),kind=document.getElementById('s2-m-kind').value,title=document.getElementById('s2-m-title').value.trim(),description=document.getElementById('s2-m-desc').value.trim(),url=document.getElementById('s2-m-url').value.trim(),testId=document.getElementById('s2-m-test').value;
+ if(!set||!title){toast('Enter the marathon set and a title.');return}
+ if(kind==='pdf'&&!/^https:\/\//i.test(url)){toast('Enter a valid https:// PDF link.');return}
+ if(kind==='quiz'&&!testId){toast('Choose a published MCQ test.');return}
+ try{await db.collection('marathonItems').add({set,kind,title,description,url:kind==='pdf'?url:'',testId:kind==='quiz'?testId:'',createdAt:s1Ts(),createdBy:signedInUser.email});toast('Added to Past Paper Marathon.');s2MarathonAdmin()}catch(e){console.error(e);toast('Could not save. Check Firestore rules.')}
+}
+async function s2DelMarathon(id){if(!confirm('Delete this item?'))return;try{await db.collection('marathonItems').doc(id).delete();s2MarathonAdmin()}catch(e){toast('Could not delete.')}}
+
+/* student: marathon on the Past Paper Marathons page */
+const s2PapersOrig=s2LoadPastPapers;
+s2LoadPastPapers=async function(){
+ await s2PapersOrig();
+ const page=document.getElementById('page-past-papers');let host=document.getElementById('s2-marathon');
+ if(!host){host=document.createElement('div');host.id='s2-marathon';page.insertBefore(host,document.getElementById('s2-pastpapers')||null)}
+ try{
+  const [ms,rs]=await Promise.all([db.collection('marathonItems').get(),s1LoadResults()]);
+  const items=ms.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>s2Sec(a.createdAt,b.createdAt)),done=new Set(rs.map(r=>r.testId));
+  if(items.length){const emp=page.querySelector('.empty');if(emp)emp.style.display='none'}
+  const sets=[...new Set(items.map(x=>x.set))];
+  host.innerHTML=sets.map(s=>'<div class="card"><h3 style="font-size:15px;margin-bottom:10px">'+s1Esc(s)+'</h3>'+items.filter(x=>x.set===s).map(x=>x.kind==='quiz'?'<div class="resource-item"><i class="fa-solid fa-clipboard-question"></i><div style="flex:1"><strong>'+s1Esc(x.title)+'</strong><small>Quiz</small>'+(x.description?'<small style="display:block">'+s1Esc(x.description)+'</small>':'')+(done.has(x.testId)?'<button class="btn btn-secondary" style="margin-top:6px" onclick="s1ReviewResult(\''+x.testId+'\',-1)">Attempted · View result</button>':'<button class="btn" style="margin-top:6px" onclick="startPublishedTest(\''+x.testId+'\',-1)">Start quiz</button>')+'</div></div>':'<div class="resource-item"><i class="fa-regular fa-file-pdf res-icon-pdf"></i><div style="flex:1"><strong>'+s1Esc(x.title)+'</strong><small>PDF test</small>'+(x.description?'<small style="display:block">'+s1Esc(x.description)+'</small>':'')+'<a class="link" href="'+s1Esc(x.url)+'" target="_blank" rel="noopener">Open PDF</a></div></div>').join('')+'</div>').join('');
+ }catch(e){console.warn(e)}
+};
+const s2CloseOrig2=s1Close;
+s1Close=function(silent){const r=s1Runner;s2CloseOrig2(silent);if(!silent&&r&&r.mode==='live'&&r.index===-1&&document.getElementById('s2-marathon')&&document.getElementById('page-past-papers').classList.contains('show'))s2LoadPastPapers()};
+
+/* admin: guidance PDFs */
+const S2_GSEC=['SOS','Time Table','Other guidance'];
+async function s2GuidanceAdmin(){
+ const host=document.getElementById('s2-panel');
+ try{
+  const gs=await db.collection('guidance').get();
+  const items=gs.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>s2Sec(b.createdAt,a.createdAt));
+  host.innerHTML='<div class="card"><h4 style="font-size:13px;margin-bottom:8px">Add a Guidance PDF</h4><div class="form-group"><label>Section</label><select id="s2-g-sec" class="field">'+S2_GSEC.map(s=>'<option>'+s+'</option>').join('')+'</select></div><div class="form-group"><label>Title (e.g. SOS – Physics, Time Table – November)</label><input id="s2-g-title" class="field"></div><div class="form-group"><label>Description (optional)</label><textarea id="s2-g-desc" class="field" rows="2"></textarea></div><div class="form-group"><label>PDF link (https://…)</label><input id="s2-g-url" class="field" type="url" placeholder="https://..."></div><button class="btn" onclick="s2SaveGuidance()">Add PDF</button></div><div class="card"><h4 style="font-size:13px;margin-bottom:6px">Guidance PDFs</h4>'+
+  (items.length?items.map(x=>'<div class="s1-row"><div><b>'+s1Esc(x.title)+'</b> <span class="s1-pill">'+s1Esc(x.section)+'</span><br><small>'+s2Date(x.createdAt)+'</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2DelGuidance(\''+x.id+'\')">Delete</button></div></div>').join(''):'Nothing added yet.')+'</div>';
+ }catch(e){console.error(e);host.textContent=adminErrorText(e)}
+}
+async function s2SaveGuidance(){
+ if(!s2IsAdmin())return;
+ const section=document.getElementById('s2-g-sec').value,title=document.getElementById('s2-g-title').value.trim(),description=document.getElementById('s2-g-desc').value.trim(),url=document.getElementById('s2-g-url').value.trim();
+ if(!title||!/^https:\/\//i.test(url)){toast('Enter a title and a valid https:// PDF link.');return}
+ try{await db.collection('guidance').add({section,title,description,url,createdAt:s1Ts(),createdBy:signedInUser.email});toast('Guidance PDF added.');s2GuidanceAdmin()}catch(e){console.error(e);toast('Could not save. Check Firestore rules.')}
+}
+async function s2DelGuidance(id){if(!confirm('Delete this PDF?'))return;try{await db.collection('guidance').doc(id).delete();s2GuidanceAdmin()}catch(e){toast('Could not delete.')}}
+
+/* student: Guidance Section */
+s2.guid=[];
+async function s2LoadGuidance(){
+ const page=document.getElementById('page-guidance');let host=document.getElementById('s2-guidance');
+ if(!host){host=document.createElement('div');host.id='s2-guidance';page.appendChild(host)}
+ try{
+  const gs=await db.collection('guidance').get();
+  s2.guid=gs.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>s2Sec(b.createdAt,a.createdAt));
+  host.innerHTML=S2_GSEC.map(sec=>{const g=s2.guid.filter(x=>x.section===sec);return g.length?'<div class="card"><h3 style="font-size:15px;margin-bottom:10px">'+s1Esc(sec)+(sec==='Other guidance'?'':' PDFs')+'</h3>'+g.map(x=>'<div class="resource-item"><i class="fa-regular fa-file-pdf res-icon-pdf"></i><div style="flex:1"><strong>'+s1Esc(x.title)+'</strong><small>PDF · '+s2Date(x.createdAt)+'</small>'+(x.description?'<small style="display:block">'+s1Esc(x.description)+'</small>':'')+'<a class="link" href="'+s1Esc(x.url)+'" target="_blank" rel="noopener">Open PDF</a></div></div>').join('')+'</div>':''}).join('');
+ }catch(e){console.warn(e)}
+}
+const s2NoticeOrig=resourceNotice;
+resourceNotice=function(name){
+ const sec=name==='SOS PDF'?'SOS':name==='Time Table PDF'?'Time Table':null;
+ const g=sec&&s2.guid.find(x=>x.section===sec);
+ if(g){window.open(g.url,'_blank','noopener');return}
+ s2NoticeOrig(name);
+};
+const s2ShowPageOrig2=showPage;
+showPage=function(name){s2ShowPageOrig2(name);if(name==='guidance'&&signedInUser)s2LoadGuidance()};
+
+/* ---------- Live Classes links ---------- */
+S2_TABS.splice(6,0,['live','Live Classes']);
+const s2TabOrig2=s2Tab;
+s2Tab=function(k){
+ if(k!=='live')return s2TabOrig2(k);
+ if(!s2IsAdmin())return;
+ document.querySelectorAll('#s2-tabs .tab').forEach(e=>e.classList.toggle('active',e.dataset.s2tab===k));
+ document.getElementById('s2-panel').innerHTML='Loading…';s2LiveAdmin();
+};
+async function s2LiveAdmin(){
+ const host=document.getElementById('s2-panel');
+ try{
+  const snap=await db.collection('liveClasses').get();
+  const items=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>s2Sec(b.startsAt,a.startsAt)||s2Sec(b.createdAt,a.createdAt));
+  host.innerHTML='<div class="card"><h4 style="font-size:13px;margin-bottom:8px">Add a live class link</h4><div class="form-group"><label>Title</label><input id="s2-l-title" class="field" placeholder="e.g. Physics – Electrostatics live class"></div><div class="form-group"><label>Subject (optional)</label><select id="s2-l-subj" class="field s2-subj" data-all="1"></select></div><div class="form-group"><label>Date and time (optional)</label><input id="s2-l-when" type="datetime-local" class="field"></div><div class="form-group"><label>Description (optional)</label><textarea id="s2-l-desc" class="field" rows="2"></textarea></div><div class="form-group"><label>Class link (https://… Zoom, Google Meet, YouTube Live)</label><input id="s2-l-url" class="field" type="url" placeholder="https://..."></div><button class="btn" onclick="s2SaveLive()">Add live class</button></div><div class="card"><h4 style="font-size:13px;margin-bottom:6px">Live class links</h4>'+
+  (items.length?items.map(x=>'<div class="s1-row"><div><b>'+s1Esc(x.title)+'</b><br><small>'+s1Esc(x.subject||'')+(x.startsAt?' · '+x.startsAt.toDate().toLocaleString():'')+'</small></div><div class="acts"><button class="btn btn-secondary" onclick="s2DelLive(\''+x.id+'\')">Delete</button></div></div>').join(''):'Nothing added yet.')+'</div>';
+  s2RefreshSubjectSelects();
+ }catch(e){console.error(e);host.textContent=adminErrorText(e)}
+}
+async function s2SaveLive(){
+ if(!s2CanManage())return;
+ const title=document.getElementById('s2-l-title').value.trim(),subject=document.getElementById('s2-l-subj').value,when=document.getElementById('s2-l-when').value,description=document.getElementById('s2-l-desc').value.trim(),url=document.getElementById('s2-l-url').value.trim();
+ if(!title||!/^https:\/\//i.test(url)){toast('Enter a title and a valid https:// link.');return}
+ try{
+  const data={title,subject,description,url,createdAt:s1Ts(),createdBy:signedInUser.email};
+  if(when)data.startsAt=firebase.firestore.Timestamp.fromDate(new Date(when));
+  await db.collection('liveClasses').add(data);toast('Live class link added.');s2LiveAdmin();
+ }catch(e){console.error(e);toast('Could not save. Check Firestore rules.')}
+}
+async function s2DelLive(id){if(!confirm('Delete this live class link?'))return;try{await db.collection('liveClasses').doc(id).delete();s2LiveAdmin()}catch(e){toast('Could not delete.')}}
+async function s2LoadLive(){
+ const page=document.getElementById('page-live');let host=document.getElementById('s2-live');
+ if(!host){host=document.createElement('div');host.id='s2-live';page.insertBefore(host,page.querySelector('h1.title').nextSibling)}
+ try{
+  const snap=await db.collection('liveClasses').get();
+  const items=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>s2Sec(b.startsAt,a.startsAt)||s2Sec(b.createdAt,a.createdAt));
+  host.innerHTML=items.length?'<h3 style="font-size:15px;margin:6px 0 10px">Live classes</h3>'+items.map(x=>'<div class="card"><span class="tag">'+s1Esc(x.subject||'Live class')+'</span><h3 style="margin:8px 0 4px;font-size:16px">'+s1Esc(x.title)+'</h3>'+(x.startsAt?'<p class="subtitle" style="margin:0 0 8px">'+x.startsAt.toDate().toLocaleString()+'</p>':'')+(x.description?'<p style="font-size:13px;margin-bottom:10px">'+s1Esc(x.description)+'</p>':'')+'<a class="btn" style="display:inline-block;text-decoration:none" href="'+s1Esc(x.url)+'" target="_blank" rel="noopener">Join / open class</a></div>').join(''):'';
+ }catch(e){console.warn(e)}
+}
+const s2ShowPageOrig3=showPage;
+showPage=function(name){s2ShowPageOrig3(name);if(name==='live'&&signedInUser)s2LoadLive()};
+
+</script>
+<script src="/admin-management.js"></script>
+<script>
+/* ===== Additive: bulk-paste MCQ importer (Admin → MCQ Test Manager) =====
+   Parses pasted text and fills the existing MCQ question cards via addAdminQuestion().
+   Touches no Firestore/Firebase code; saving/publishing still uses the existing buttons. */
+(function(){
+/*PARSER-START*/
+function ijmParse(text){
+ const clean=s=>String(s).replace(/\*\*|__|`/g,'').replace(/\s+/g,' ').trim();
+ const reQ=/^(?:q(?:uestion)?\.?\s*)?(\d+)\s*[.):\-]\s*(.*)$/i, reQ2=/^q(?:uestion)?\s*[:.]\s*(.*)$/i;
+ const reOpt=/^\(?([A-Da-d])[\).:\-]\s*(.*)$/;
+ const reAns=/^(?:correct\s*)?(?:answer|ans|key|correct(?:\s*(?:option|answer))?)\s*(?:is)?\s*[:\-=)]\s*\(?([A-Da-d])\b\)?/i;
+ const reExp=/^(?:explanation|exp|solution|reason|rationale)\s*[:\-]\s*(.*)$/i;
+ const out=[]; let cur=null, blank=false;
+ const fresh=()=>({q:[],opts:[null,null,null,null],ans:-1,exp:[],mode:'q'});
+ const has=c=>c&&(c.q.length||c.opts.some(o=>o!==null)||c.ans>=0||c.exp.length);
+ const push=()=>{if(has(cur))out.push(cur);cur=null};
+ const started=c=>c.opts.some(o=>o!==null)||c.ans>=0||c.exp.length;
+ text.replace(/\r/g,'').split('\n').forEach(raw=>{
+  const line=clean(raw);
+  if(!line){blank=true;return}
+  if(!cur)cur=fresh();
+  let m;
+  if((m=line.match(reAns))){cur.ans='ABCD'.indexOf(m[1].toUpperCase());cur.mode='ans';blank=false;return}
+  if((m=line.match(reExp))){cur.exp.push(m[1]);cur.mode='exp';blank=false;return}
+  if((m=line.match(reOpt))){
+   const idx='ABCD'.indexOf(m[1].toUpperCase());
+   const next=cur.opts.findIndex(o=>o===null);
+   if(idx===next||(idx===0&&next===-1&&false)){cur.opts[idx]=m[2];cur.mode='opt';blank=false;return}
+   if(idx===0&&started(cur)&&cur.opts.every(o=>o!==null)){push();cur=fresh();cur.q.push(line);blank=false;return}
+  }
+  const qm=line.match(reQ)||line.match(reQ2);
+  if(qm&&(started(cur)||!cur.q.length)){
+   if(started(cur)){push();cur=fresh()}
+   cur.q.push(qm[qm.length-1]);cur.mode='q';blank=false;return;
+  }
+  if(started(cur)&&(cur.mode==='ans'||(cur.mode==='exp'&&blank)||(cur.mode==='opt'&&blank&&cur.opts.every(o=>o!==null)))){
+   push();cur=fresh();cur.q.push(line);cur.mode='q';blank=false;return;
+  }
+  if(cur.mode==='opt'){const i=cur.opts.map(o=>o!==null).lastIndexOf(true);cur.opts[i]+=' '+line}
+  else if(cur.mode==='exp')cur.exp.push(line);
+  else cur.q.push(line);
+  blank=false;
+ });
+ push();
+ return out.map((c,i)=>({n:i+1,question:c.q.join(' ').trim(),options:c.opts.map(o=>o||''),answer:c.ans,explanation:c.exp.join(' ').trim()}));
+}
+/*PARSER-END*/
+function ijmEmptyCard(b){
+ try{return !b.querySelector('[data-q="text"]').value.trim()&&![0,1,2,3].some(n=>b.querySelector('[data-opt="'+n+'"]').value.trim())&&!b.querySelector('[data-q="explanation"]').value.trim()}catch(e){return false}
+}
+function ijmRun(){
+ const ta=document.getElementById('ijm-text'),st=document.getElementById('ijm-status');
+ const say=(msg,bad)=>{st.textContent=msg;st.style.color=bad?'#b3261e':'var(--teal-dark,#007b83)'};
+ if(typeof addAdminQuestion!=='function'){say('MCQ editor is not available.',true);return}
+ const items=ijmParse(ta.value);
+ if(!items.length){say('Nothing to import. Paste questions first.',true);return}
+ const good=[],bad=[];
+ items.forEach(it=>{
+  const why=[];
+  if(!it.question)why.push('no question text');
+  if(it.options.some(o=>!o))why.push('needs four options A–D');
+  if(it.answer<0)why.push('no correct answer');
+  why.length?bad.push('Q'+it.n+' ('+why.join(', ')+')'):good.push(it);
+ });
+ if(!good.length){say('No complete questions found. '+bad.join('; '),true);return}
+ const host=document.getElementById('admin-test-questions');
+ [...host.querySelectorAll(':scope>.card')].forEach(b=>{if(ijmEmptyCard(b))b.remove()});
+ good.forEach(it=>addAdminQuestion({question:it.question,options:it.options,answer:it.answer,explanation:it.explanation}));
+ if(bad.length){say('Imported '+good.length+' question(s). Skipped '+bad.length+': '+bad.join('; ')+'. Fix them in the box and import again (already-imported ones are not removed from the box).',true)}
+ else{say('Imported '+good.length+' question(s). Review the cards below, then Preview, Save draft or Publish.');ta.value=''}
+}
+function ijmInit(){
+ const target=document.getElementById('admin-test-questions');
+ if(!target||document.getElementById('ijm-panel'))return;
+ const p=document.createElement('details');p.id='ijm-panel';p.style.cssText='margin:10px 0';
+ p.innerHTML='<summary style="cursor:pointer;font-weight:600;font-size:13px">Bulk paste MCQs</summary>'
+  +'<div class="form-group" style="margin-top:8px"><small style="display:block;margin-bottom:6px;color:var(--muted)">Paste questions in this format (questions are added to the cards below; existing filled cards are kept):<br>1. Question text<br>A. Option &nbsp; B. Option &nbsp; C. Option &nbsp; D. Option<br>Answer: B<br>Explanation: Optional text</small>'
+  +'<textarea id="ijm-text" class="field" rows="8" placeholder="Paste MCQs here"></textarea></div>'
+  +'<button type="button" class="btn btn-secondary" id="ijm-go">Import into question cards</button>'
+  +'<small id="ijm-status" style="display:block;margin-top:8px"></small>';
+ target.parentNode.insertBefore(p,target);
+ document.getElementById('ijm-go').onclick=ijmRun;
+}
+try{ijmInit()}catch(e){console.warn('MCQ bulk importer not loaded',e)}
+})();
+</script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => console.log("Ijmatics offline support enabled"))
+      .catch(error => console.error("Service Worker error:", error));
+  });
+}
+  </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => console.log("Ijmatics offline support enabled"))
+      .catch(error => console.error("Service Worker error:", error));
+  });
+}
+  </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => console.log("Ijmatics offline support enabled"))
+      .catch(error => console.error(error));
+  });
+}
+  </script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => console.log("Ijmatics offline support enabled"))
+      .catch(error => console.error(error));
+  });
+}
+</script>  
+  <script src="/pwa-register.js"></script>
+</body>
+</html>

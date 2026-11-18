@@ -1,0 +1,21 @@
+{
+  "background_color": "#e9f7f6",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "ijmatics.dpdns",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "ijmatics.dpdns",
+  "start_url": "/",
+  "theme_color": "#087e82",
+  "description": "Ijmatics - Learn, Practice and Achieve with Physics, Chemistry, Biology and Logical Reasoning.",
+  "id": "/",
+  "lang": "en",
+  "categories": [
+    "books",
+    "books &amp; reference",
+    "education",
+    "networking",
+    "photo &amp; video"
+  ]
+}
